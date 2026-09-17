@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Ciasteczka zostały skopiowane do schowka"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Wybierz sposób eksportowania plików cookie"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Pobierz"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Kopiuj do schowka"
+  },
   "editThis_Copy_Cookies": {
     "message": "Eksportuj ciasteczka"
   },

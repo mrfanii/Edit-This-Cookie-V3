@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies kopierade till urklippet (clipboard)"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Välj hur cookies ska exporteras"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Hämta"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Kopiera till urklipp"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exportera cookies"
   },

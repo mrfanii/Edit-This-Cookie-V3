@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Çerezler kopyalandı."
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Çerezlerin nasıl dışa aktarılacağını seçin"
+  },
+  "editThis_Download_Cookies": {
+    "message": "İndir"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Panoya kopyala"
+  },
   "editThis_Copy_Cookies": {
     "message": "Cookie ver"
   },

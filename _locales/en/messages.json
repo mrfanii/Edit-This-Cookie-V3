@@ -338,6 +338,15 @@
   "editThis_Copy_Cookies_Type": {
     "message": "Choose the preferred export format for cookies"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Choose how to export cookies"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Download"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Copy to clipboard"
+  },
   "editThis_Copy_Cookies": {
     "message": "Export"
   },

@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "עוגיות הועתקו ללוח"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "בחר כיצד לייצא קובצי Cookie"
+  },
+  "editThis_Download_Cookies": {
+    "message": "הורדה"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "העתקה ללוח"
+  },
   "editThis_Copy_Cookies": {
     "message": "יצא"
   },

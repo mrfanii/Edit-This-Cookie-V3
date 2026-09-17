@@ -141,7 +141,48 @@ export function copyToClipboard(text) {
 
   $('body').scrollTop(scrollsave);
 }
+const cookieExportFileTypes = {
+  json: { extension: 'json', mimeType: 'application/json;charset=utf-8' },
+  netscape: { extension: 'txt', mimeType: 'text/plain;charset=utf-8' },
+  semicolonPairs: { extension: 'txt', mimeType: 'text/plain;charset=utf-8' },
+  lpw: { extension: 'txt', mimeType: 'text/plain;charset=utf-8' },
+};
 
+function getCookieExportFileName(currentUrl, extension) {
+  let hostname = '';
+  try {
+    hostname = new URL(currentUrl).hostname;
+  } catch (e) {
+    hostname = String(currentUrl || '')
+      .replace(/^[a-z][a-z\d+.-]*:\/\//i, '')
+      .split(/[/?#]/)[0];
+  }
+
+  hostname = hostname
+    .replace(/^\.+/, '')
+    .replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_')
+    .trim();
+
+  return hostname ? `${hostname}_cookies.${extension}` : `cookies.${extension}`;
+}
+
+export function downloadCookies(text, currentUrl, exportFormat) {
+  if (text === undefined) return;
+
+  const fileType = cookieExportFileTypes[exportFormat] || cookieExportFileTypes.json;
+  const blob = new Blob([text], { type: fileType.mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = getCookieExportFileName(currentUrl, fileType.extension);
+  link.style.display = 'none';
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
 export function setLoaderVisible(visible) {
   if (visible) {
     $('#loader-container').show();

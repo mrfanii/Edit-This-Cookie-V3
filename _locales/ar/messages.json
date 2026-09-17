@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "تم نسخ الكوكيز إلى الحافظة"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "اختر كيفية تصدير ملفات تعريف الارتباط"
+  },
+  "editThis_Download_Cookies": {
+    "message": "تنزيل"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "نسخ إلى الحافظة"
+  },
   "editThis_Copy_Cookies": {
     "message": "تصدير ملفات تعريف الارتباط"
   },

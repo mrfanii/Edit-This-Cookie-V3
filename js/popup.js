@@ -4,7 +4,17 @@ import '/lib/uniform/jquery.uniform.js';
 
 import { startData } from '/js/data.js';
 import { buildUrl, deleteAll, deleteCookie, Filter, cookieForCreationFromFullCookie, cookiesToStringGenerator } from '/js/cookie_helpers.js';
-import { getHost, addBlockRule, switchReadOnlyRule, _getMessage, filterMatchesCookie, getUrlVars, copyToClipboard, setLoaderVisible } from '/js/utils.js';
+import {
+  getHost,
+  addBlockRule,
+  switchReadOnlyRule,
+  _getMessage,
+  filterMatchesCookie,
+  getUrlVars,
+  copyToClipboard,
+  setLoaderVisible,
+  downloadCookies,
+} from '/js/utils.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { localizePage } from '../lib/i18n_translator.js';
 
@@ -20,6 +30,10 @@ async function start() {
   var pasteCookie = false;
   var currentLayout = 'none';
   var lastInput = '';
+
+  const exportIcon = $('i', '#exportButton');
+  exportIcon.removeClass('fa-copy fa-download');
+  exportIcon.addClass(preferences.exportCookiesAction === 'copy' ? 'fa-copy' : 'fa-download');
 
   $.fx.speeds._default = 200;
 
@@ -458,21 +472,28 @@ async function start() {
         });
       });
 
-    $('#copyButton')
+    $('#exportButton')
       .unbind()
       .click(function () {
-        copyToClipboard(cookiesToString.get(cookieList));
+        const exportedCookies = cookiesToString.get(cookieList);
+        if (exportedCookies === undefined) return;
+
+        if (preferences.exportCookiesAction === 'copy') {
+          copyToClipboard(exportedCookies);
+          $('#copiedToast').fadeIn(function () {
+            setTimeout(function () {
+              $('#copiedToast').fadeOut();
+            }, 2500);
+          });
+        } else {
+          downloadCookies(exportedCookies, getUrlOfCookies(), preferences.copyCookiesType);
+        }
+
         data.nCookiesExported += cookieList.length;
-        $('#copiedToast').fadeIn(function () {
-          setTimeout(function () {
-            $('#copiedToast').fadeOut();
-          }, 2500);
-        });
         $(this).animate({ backgroundColor: '#B3FFBD' }, 300, function () {
           $(this).animate({ backgroundColor: '#EDEDED' }, 500);
         });
       });
-
     $('#pasteButton')
       .unbind()
       .click(function () {
@@ -687,7 +708,7 @@ async function start() {
           if (preferences.showFlagAndDeleteAll) $('#flagAllButton').show();
           $('#addCookieButton').show();
           $('#backToList').hide();
-          $('#copyButton').show();
+          $('#exportButton').show();
           $('#pasteButton').show();
           $('#searchButton').show();
           $('.commands-table').first().animate({ opacity: 1 });
@@ -704,7 +725,7 @@ async function start() {
           $('#flagAllButton').hide();
           $('#addCookieButton').show();
           $('#backToList').hide();
-          $('#copyButton').hide();
+          $('#exportButton').hide();
           $('#pasteButton').show();
           $('#searchButton').hide();
           $('.commands-table').first().animate({ opacity: 1 });
@@ -722,7 +743,7 @@ async function start() {
           $('#flagAllButton').hide();
           $('#addCookieButton').hide();
           $('#backToList').show();
-          $('#copyButton').hide();
+          $('#exportButton').hide();
           $('#pasteButton').hide();
           $('#searchButton').hide();
           $('.commands-table').first().animate({ opacity: 1 });

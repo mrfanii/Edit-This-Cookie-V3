@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Sütik vágólapra másolva"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Válassza ki a cookie-k exportálásának módját"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Letöltés"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Másolás a vágólapra"
+  },
   "editThis_Copy_Cookies": {
     "message": "Süti exportálása"
   },

@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies skopírované do schránky"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Vyberte spôsob exportovania súborov cookie"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Stiahnuť"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Kopírovať do schránky"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exportovať cookies"
   },

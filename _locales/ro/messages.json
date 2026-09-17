@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookie-urile au fost copiate in clipboard"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Alegeți cum să exportați cookie-urile"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Descărcare"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Copiază în clipboard"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exporta"
   },

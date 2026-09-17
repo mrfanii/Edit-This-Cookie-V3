@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "کوکی ها به حافظه کلیپ بورد کپی شدند"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "روش خروجی گرفتن از کوکی‌ها را انتخاب کنید"
+  },
+  "editThis_Download_Cookies": {
+    "message": "دانلود"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "کپی در کلیپ‌بورد"
+  },
   "editThis_Copy_Cookies": {
     "message": "خروجی گرفتن"
   },

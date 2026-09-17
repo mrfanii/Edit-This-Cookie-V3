@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookie telah disalin ke papanklip"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Pilih cara untuk mengeksport kuki"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Muat turun"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Salin ke papan klip"
+  },
   "editThis_Copy_Cookies": {
     "message": "Eksport"
   },

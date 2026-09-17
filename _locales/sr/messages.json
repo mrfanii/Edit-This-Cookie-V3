@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Колачићи су копирани у клипборд"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Изаберите начин извоза колачића"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Преузми"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Копирај у привремену меморију"
+  },
   "editThis_Copy_Cookies": {
     "message": "Извези"
   },

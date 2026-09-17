@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies copiés dans le presse-papiers"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Choisissez comment exporter les cookies"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Télécharger"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Copier dans le presse-papiers"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exporter"
   },

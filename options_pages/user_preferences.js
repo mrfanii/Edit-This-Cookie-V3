@@ -74,7 +74,8 @@ async function start() {
     $("input:radio[value='" + preferences.maxCookieAgeType + "']").prop('checked', true);
     $('#maxDateType').buttonset('refresh');
 
-    $("option[value='" + preferences.copyCookiesType + "']").prop('selected', true);
+    $('#copyCookiesType').val(preferences.copyCookiesType);
+    $('#exportCookiesAction').val(preferences.exportCookiesAction);
 
     $('#showDomainBeforeName').prop('checked', preferences.showDomainBeforeName);
     $('#showDomainBeforeName').prop('disabled', !preferences.showDomain);
@@ -185,6 +186,10 @@ async function start() {
 
     $('#copyCookiesType').change(function () {
       preferences.copyCookiesType = $('#copyCookiesType').val();
+    });
+
+    $('#exportCookiesAction').change(function () {
+      preferences.exportCookiesAction = $('#exportCookiesAction').val();
     });
 
     $('#showDomainBeforeName').click(function () {

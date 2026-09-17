@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies đã được copy vào clipboard"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Chọn cách xuất cookie"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Tải xuống"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Sao chép vào bảng nhớ tạm"
+  },
   "editThis_Copy_Cookies": {
     "message": "Xuất dữ liệu"
   },

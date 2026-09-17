@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies copied to clipboard"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "குக்கீகளை எவ்வாறு ஏற்றுமதி செய்வது என்பதைத் தேர்வுசெய்யவும்"
+  },
+  "editThis_Download_Cookies": {
+    "message": "பதிவிறக்கு"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "கிளிப்போர்டுக்கு நகலெடு"
+  },
   "editThis_Copy_Cookies": {
     "message": "ஏற்றுமதி செய்"
   },

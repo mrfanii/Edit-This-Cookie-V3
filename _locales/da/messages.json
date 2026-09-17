@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies kopieret til udklipsholderen"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Vælg, hvordan cookies skal eksporteres"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Download"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Kopiér til udklipsholder"
+  },
   "editThis_Copy_Cookies": {
     "message": "Eksportér"
   },

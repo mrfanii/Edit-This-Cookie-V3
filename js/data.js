@@ -84,6 +84,9 @@ export async function startData(updateCallback) {
     copyCookiesType: {
       default_value: 'json',
     },
+    exportCookiesAction: {
+      default_value: 'download',
+    },
     showChristmasIcon: {
       default_value: true,
     },

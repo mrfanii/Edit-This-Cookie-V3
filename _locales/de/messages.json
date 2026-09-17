@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies wurden in die Zwischenablage kopiert"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Wählen Sie, wie Cookies exportiert werden sollen"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Herunterladen"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "In die Zwischenablage kopieren"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exportiere Cookies"
   },

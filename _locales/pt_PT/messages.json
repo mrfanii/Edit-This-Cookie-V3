@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies copiados para a área de transferência"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Escolha como exportar os cookies"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Transferir"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Copiar para a área de transferência"
+  },
   "editThis_Copy_Cookies": {
     "message": "Exportar cookies"
   },

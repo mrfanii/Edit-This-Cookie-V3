@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Cookies gekopieerd naar het klembord"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Kies hoe cookies worden geëxporteerd"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Downloaden"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Naar klembord kopiëren"
+  },
   "editThis_Copy_Cookies": {
     "message": "Cookies exporteren"
   },

@@ -399,6 +399,15 @@
   "editThis_Copied_clipboard": {
     "message": "Кукі скопійовано до буферу"
   },
+  "editThis_Export_Cookies_Action": {
+    "message": "Виберіть спосіб експорту файлів cookie"
+  },
+  "editThis_Download_Cookies": {
+    "message": "Завантажити"
+  },
+  "editThis_Copy_Cookies_To_Clipboard": {
+    "message": "Копіювати в буфер обміну"
+  },
   "editThis_Copy_Cookies": {
     "message": "Експорт"
   },
