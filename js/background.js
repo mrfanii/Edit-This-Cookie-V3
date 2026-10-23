@@ -2,6 +2,7 @@ import { isChristmasPeriod, storage } from './common-utils.js';
 import { deleteCookie, cookieForCreationFromFullCookie, compareCookies } from '/js/cookie_helpers.js';
 import { startData } from './data.js';
 import { filterMatchesCookie } from './utils.js';
+import "./statistics.js"
 
 async function start() {
   let showContextMenu;

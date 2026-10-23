@@ -21,6 +21,13 @@
     "service_worker": "/js/background.js",
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content_statistics.js"],
+      "run_at": "document_start"
+    }
+  ],
   "options_page": "options_main_page.html",
   "permissions": ["tabs", "cookies", "contextMenus", "unlimitedStorage", "storage", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
