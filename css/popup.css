@@ -445,12 +445,11 @@ body {
   font-weight: bold;
 }
 
-.unselectable {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
+.ui-accordion-content-active,
+#helpButton {
   -webkit-user-select: none;
-  -o-user-select: none;
   user-select: none;
+  -webkit-user-drag: none;
 }
 
 .error {
