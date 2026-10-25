@@ -7,6 +7,7 @@ import '/lib/uniform/jquery.uniform.js';
 
 import { startData } from '/js/data.js';
 import { getUrlVars } from '/js/utils.js';
+import { buildUrl, clonePartitionKey, getAllCookies } from '/js/cookie_helpers.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { localizePage } from '../lib/i18n_translator.js';
 
@@ -42,7 +43,7 @@ async function start() {
       return;
     }
     var tabId = chrome.devtools.inspectedWindow.tabId;
-    console.log({tabId});
+    console.log({ tabId });
     backgroundPageConnection.postMessage({
       action: 'getall',
       tabId: tabId,
@@ -51,7 +52,7 @@ async function start() {
 
   function createList(url) {
     tabURL = url;
-    chrome.cookies.getAll(
+    getAllCookies(
       {
         url: tabURL,
       },
@@ -202,9 +203,10 @@ async function start() {
     var sameSite = getValue(10, $cols);
     var origName = getValue(11, $cols);
     var storeId = getValue(12, $cols);
+    var originalCookie = cookieList[Number(id)];
 
     const newCookie = {};
-    newCookie.url = tabURL;
+    newCookie.url = buildUrl(domain, path, tabURL);
     newCookie.name = name.replace(';', '').replace(',', '');
     value = value.replace(';', '');
     newCookie.value = value;
@@ -219,10 +221,14 @@ async function start() {
     newCookie.httpOnly = httpOnly;
     newCookie.sameSite = sameSite;
 
+    const partitionKey = clonePartitionKey(originalCookie?.partitionKey);
+    if (partitionKey !== undefined) newCookie.partitionKey = partitionKey;
+
     backgroundPageConnection.postMessage({
       action: 'submitCookie',
       cookie: newCookie,
       origName: origName,
+      originalCookie: originalCookie,
     });
   }
 }

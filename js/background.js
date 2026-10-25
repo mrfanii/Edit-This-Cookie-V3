@@ -1,8 +1,8 @@
 import { isChristmasPeriod, storage } from './common-utils.js';
-import { deleteCookie, cookieForCreationFromFullCookie, compareCookies } from '/js/cookie_helpers.js';
+import { buildCookieUrl, deleteCookie, cookieForCreationFromFullCookie, compareCookies, getAllCookies, getCookie } from '/js/cookie_helpers.js';
 import { startData } from './data.js';
 import { filterMatchesCookie } from './utils.js';
-import "./statistics.js"
+import './statistics.js';
 
 async function start() {
   let showContextMenu;
@@ -24,7 +24,7 @@ async function start() {
     chrome.tabs.get(message.tabId, function (tab) {
       var url = tab.url;
       console.log('Looking for cookies on: ' + url);
-      chrome.cookies.getAll(
+      getAllCookies(
         {
           url: url,
         },
@@ -93,10 +93,16 @@ async function start() {
         getAll(port, message);
       } else if (action === 'submitCookie') {
         const cookie = message.cookie;
-        const origName = message.origName;
-        deleteCookie(cookie.url, origName, cookie.storeId);
-        chrome.cookies.set(cookie);
-        issueRefresh(port);
+        const originalCookie = message.originalCookie;
+        const originalUrl = originalCookie ? buildCookieUrl(originalCookie) : cookie.url;
+        const originalName = originalCookie?.name ?? message.origName;
+        const originalStoreId = originalCookie?.storeId ?? cookie.storeId;
+        const originalPartitionKey = originalCookie?.partitionKey ?? cookie.partitionKey;
+        deleteCookie(originalUrl, originalName, originalStoreId, originalPartitionKey, function () {
+          chrome.cookies.set(cookie, function () {
+            issueRefresh(port);
+          });
+        });
       }
     };
     port.onMessage.addListener(devToolsListener);
@@ -142,19 +148,12 @@ async function start() {
       var currentRORule = data.readOnly[i];
       if (compareCookies(cookie, currentRORule)) {
         if (removed) {
-          chrome.cookies.get(
-            {
-              url: 'http' + (currentRORule.secure ? 's' : '') + '://' + currentRORule.domain + currentRORule.path,
-              name: currentRORule.name,
-              storeId: currentRORule.storeId,
-            },
-            function (currentCookie) {
-              if (compareCookies(currentCookie, currentRORule)) return;
-              var newCookie = cookieForCreationFromFullCookie(currentRORule);
-              chrome.cookies.set(newCookie);
-              ++data.nCookiesProtected;
-            },
-          );
+          getCookie(currentRORule, function (currentCookie) {
+            if (compareCookies(currentCookie, currentRORule)) return;
+            var newCookie = cookieForCreationFromFullCookie(currentRORule);
+            chrome.cookies.set(newCookie);
+            ++data.nCookiesProtected;
+          });
         }
         return;
       }
@@ -165,15 +164,8 @@ async function start() {
       for (var i = 0; i < data.filters.length; i++) {
         var currentFilter = data.filters[i];
         if (filterMatchesCookie(currentFilter, name, domain, value)) {
-          chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            var url = tabs[0].url;
-            var toRemove = {};
-            toRemove.url = url;
-            toRemove.url = 'http' + (cookie.secure ? 's' : '') + '://' + cookie.domain + cookie.path;
-            toRemove.name = name;
-            chrome.cookies.remove(toRemove);
-            ++data.nCookiesFlagged;
-          });
+          deleteCookie(buildCookieUrl(cookie), name, cookie.storeId, cookie.partitionKey);
+          ++data.nCookiesFlagged;
         }
       }
     }

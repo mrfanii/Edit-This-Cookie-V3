@@ -31,6 +31,6 @@
   "options_page": "options_main_page.html",
   "permissions": ["tabs", "cookies", "contextMenus", "unlimitedStorage", "storage", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
-  "minimum_chrome_version": "88",
+  "minimum_chrome_version": "119",
   "manifest_version": 3
 }

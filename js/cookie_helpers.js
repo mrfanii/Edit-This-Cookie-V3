@@ -8,30 +8,93 @@ export function buildUrl(domain, path, searchUrl) {
   return 'http' + (secure ? 's' : '') + '://' + domain + path;
 }
 
+export function buildCookieUrl(cookie) {
+  const domain = cookie.domain.startsWith('.') ? cookie.domain.substring(1) : cookie.domain;
+  return `http${cookie.secure ? 's' : ''}://${domain}${cookie.path}`;
+}
+
+export function clonePartitionKey(partitionKey) {
+  if (partitionKey === undefined || partitionKey === null) return undefined;
+
+  const clonedPartitionKey = {};
+  if (partitionKey.topLevelSite !== undefined) clonedPartitionKey.topLevelSite = partitionKey.topLevelSite;
+  if (partitionKey.hasCrossSiteAncestor !== undefined) clonedPartitionKey.hasCrossSiteAncestor = partitionKey.hasCrossSiteAncestor;
+  return clonedPartitionKey;
+}
+
+export function partitionKeysEqual(firstPartitionKey, secondPartitionKey) {
+  const first = clonePartitionKey(firstPartitionKey);
+  const second = clonePartitionKey(secondPartitionKey);
+
+  if (first === undefined || second === undefined) return first === second;
+  return first.topLevelSite === second.topLevelSite && first.hasCrossSiteAncestor === second.hasCrossSiteAncestor;
+}
+
+export function cookiesHaveSameIdentity(firstCookie, secondCookie) {
+  if (!firstCookie || !secondCookie) return false;
+  return (
+    firstCookie.name === secondCookie.name &&
+    firstCookie.domain === secondCookie.domain &&
+    firstCookie.path === secondCookie.path &&
+    firstCookie.storeId === secondCookie.storeId &&
+    partitionKeysEqual(firstCookie.partitionKey, secondCookie.partitionKey)
+  );
+}
+
+export function getAllCookies(details, callback) {
+  chrome.cookies.getAll(
+    {
+      ...(details ?? {}),
+      // An empty partition key asks Chrome for both partitioned and
+      // unpartitioned cookies.
+      partitionKey: {},
+    },
+    callback,
+  );
+}
+
+export function getCookie(cookie, callback) {
+  const details = {
+    url: buildCookieUrl(cookie),
+    name: cookie.name,
+  };
+  if (cookie.storeId !== undefined && cookie.storeId !== null) details.storeId = cookie.storeId;
+
+  const partitionKey = clonePartitionKey(cookie.partitionKey);
+  if (partitionKey !== undefined) details.partitionKey = partitionKey;
+
+  chrome.cookies.get(details, callback);
+}
+
 export function deleteAll(cookieList, searchUrl) {
   for (var i = 0; i < cookieList.length; i++) {
     var curr = cookieList[i];
     var url = buildUrl(curr.domain, curr.path, searchUrl);
-    deleteCookie(url, curr.name, curr.storeId);
+    deleteCookie(url, curr.name, curr.storeId, curr.partitionKey);
   }
 }
 
-export function deleteCookie(url, name, store, callback) {
-  chrome.cookies.remove(
-    {
-      url: url,
-      name: name,
-      storeId: store,
-    },
-    function (details) {
-      if (typeof callback === 'undefined') return;
-      if (details === 'null' || details === undefined || details === 'undefined') {
-        callback(false);
-      } else {
-        callback(true);
-      }
-    },
-  );
+export function deleteCookie(url, name, store, partitionKey, callback) {
+  // Preserve compatibility with the old (url, name, store, callback)
+  // signature while allowing callers to identify a partitioned cookie.
+  if (typeof partitionKey === 'function') {
+    callback = partitionKey;
+    partitionKey = undefined;
+  }
+
+  const details = {
+    url: url,
+    name: name,
+  };
+  if (store !== undefined && store !== null) details.storeId = store;
+
+  const clonedPartitionKey = clonePartitionKey(partitionKey);
+  if (clonedPartitionKey !== undefined) details.partitionKey = clonedPartitionKey;
+
+  chrome.cookies.remove(details, function (removedCookie) {
+    if (typeof callback === 'undefined') return;
+    callback(removedCookie !== undefined && removedCookie !== null);
+  });
 }
 
 export function Filter() {
@@ -58,39 +121,45 @@ export function Filter() {
 }
 
 export function cookieForCreationFromFullCookie(fullCookie) {
-  if (fullCookie.domain?.startsWith('.')) {
-    fullCookie.domain = fullCookie.domain.substring(1);
-  }
+  const originalDomain = fullCookie.domain ?? '';
+  const urlDomain = originalDomain.startsWith('.') ? originalDomain.substring(1) : originalDomain;
+  const path = fullCookie.path ?? '/';
   const newCookie = {};
-  newCookie.url = `http${fullCookie.secure ? 's' : ''}://${fullCookie.domain}${fullCookie.path}`;
+  newCookie.url = `http${fullCookie.secure ? 's' : ''}://${urlDomain}${path}`;
   newCookie.name = fullCookie.name ?? '';
   newCookie.value = fullCookie.value ?? '';
-  newCookie.path = fullCookie.path ?? '';
-  newCookie.domain = fullCookie.domain ?? '';
+  newCookie.path = path;
   newCookie.secure = fullCookie.secure ?? false;
   newCookie.httpOnly = fullCookie.httpOnly ?? fullCookie.http_only ?? false;
-  newCookie.storeId = fullCookie.storeId ?? fullCookie.store_id ?? null;
-  newCookie.expirationDate = fullCookie.expirationDate ?? fullCookie.expiration_date ?? null;
-  newCookie.sameSite = fullCookie.sameSite ?? fullCookie.same_site ?? null;
 
-  if (!fullCookie.hostOnly) newCookie.domain = null;
-  if (!fullCookie.session) newCookie.expirationDate = null;
-  if (newCookie.sameSite === 'unspecified') newCookie.sameSite = null;
+  const isDomainCookie = fullCookie.hostOnly === false || (fullCookie.hostOnly === undefined && originalDomain.startsWith('.'));
+  if (isDomainCookie && originalDomain !== '') newCookie.domain = originalDomain;
+
+  const storeId = fullCookie.storeId ?? fullCookie.store_id;
+  if (storeId !== undefined && storeId !== null) newCookie.storeId = storeId;
+
+  const expirationDate = fullCookie.expirationDate ?? fullCookie.expiration_date;
+  if (fullCookie.session !== true && expirationDate !== undefined && expirationDate !== null) newCookie.expirationDate = expirationDate;
+
+  const sameSite = fullCookie.sameSite ?? fullCookie.same_site;
+  if (sameSite !== undefined && sameSite !== null && sameSite !== 'unspecified') newCookie.sameSite = sameSite;
+
+  const partitionKey = clonePartitionKey(fullCookie.partitionKey ?? fullCookie.partition_key);
+  if (partitionKey !== undefined) newCookie.partitionKey = partitionKey;
+
   return newCookie;
 }
 
 export function compareCookies(b, a) {
   try {
-    if (b.name !== a.name) return false;
+    if (!cookiesHaveSameIdentity(b, a)) return false;
     if (b.value !== a.value) return false;
-    if (b.path !== a.path) return false;
     if (b.secure !== a.secure) return false;
     if (b.httpOnly !== a.httpOnly) return false;
 
     var aHostOnly = !!(a.hostOnly || a.domain === undefined);
     var bHostOnly = !!(b.hostOnly || b.domain === undefined);
     if (aHostOnly !== bHostOnly) return false;
-    if (!aHostOnly && b.domain !== a.domain) return false;
 
     var aSession = !!(a.session || a.expirationDate === undefined);
     var bSession = !!(b.session || b.expirationDate === undefined);

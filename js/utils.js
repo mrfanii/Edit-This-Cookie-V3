@@ -1,4 +1,4 @@
-import { deleteCookie } from '/js/cookie_helpers.js';
+import { cookiesHaveSameIdentity, deleteCookie, getAllCookies } from '/js/cookie_helpers.js';
 
 export function getHost(url) {
   try {
@@ -49,12 +49,12 @@ export function addBlockRule(data, rule) {
   if (rule.domain !== undefined) {
     filterURL.domain = rule.domain;
   }
-  chrome.cookies.getAll({}, function (cookieL) {
+  getAllCookies({}, function (cookieL) {
     for (let x = 0; x < cookieL.length; x++) {
       const cCookie = cookieL[x];
       if (filterMatchesCookie(filterURL, cCookie.name, cCookie.domain, cCookie.value)) {
         const cUrl = (cCookie.secure ? 'https://' : 'http://') + cCookie.domain + cCookie.path;
-        deleteCookie(cUrl, cCookie.name, cCookie.storeId);
+        deleteCookie(cUrl, cCookie.name, cCookie.storeId, cCookie.partitionKey);
       }
     }
   });
@@ -66,7 +66,7 @@ export function switchReadOnlyRule(data, rule) {
   for (var x = 0; x < readOnlyList.length; x++) {
     try {
       var cRule = readOnlyList[x];
-      if (cRule.domain === rule.domain && cRule.name === rule.name && cRule.path === rule.path) {
+      if (cookiesHaveSameIdentity(cRule, rule)) {
         added = false;
         readOnlyList.splice(x, 1);
       }

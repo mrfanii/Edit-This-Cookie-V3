@@ -5,7 +5,7 @@ import '/lib/uniform/jquery.uniform.js';
 import { localizePage } from '/lib/i18n_translator.js';
 import { isChristmasPeriod } from '/js/common-utils.js';
 import { startData } from '/js/data.js';
-import { cookieForCreationFromFullCookie } from '/js/cookie_helpers.js';
+import { cookieForCreationFromFullCookie, getAllCookies } from '/js/cookie_helpers.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { setPageCooserEvents } from './options_page_chooser.js';
 
@@ -236,7 +236,7 @@ async function start() {
     }
     preferences.maxCookieAge = tmp_maxCookieAge;
 
-    chrome.cookies.getAll({}, function (cookies) {
+    getAllCookies({}, function (cookies) {
       totalCookies = cookies.length;
       cookiesShortened = 0;
       $('span', '#shortenProgress').text('0 / ' + totalCookies);

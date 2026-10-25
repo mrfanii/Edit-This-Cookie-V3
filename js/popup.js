@@ -3,7 +3,18 @@ import '/lib/jquery-ui-1.12.1.custom.min.js';
 import '/lib/uniform/jquery.uniform.js';
 
 import { startData } from '/js/data.js';
-import { buildUrl, deleteAll, deleteCookie, Filter, cookieForCreationFromFullCookie, cookiesToStringGenerator } from '/js/cookie_helpers.js';
+import {
+  buildCookieUrl,
+  buildUrl,
+  clonePartitionKey,
+  cookiesHaveSameIdentity,
+  deleteAll,
+  deleteCookie,
+  Filter,
+  cookieForCreationFromFullCookie,
+  cookiesToStringGenerator,
+  getAllCookies,
+} from '/js/cookie_helpers.js';
 import {
   getHost,
   addBlockRule,
@@ -103,13 +114,19 @@ async function start() {
     };
 
     cookies.each(function () {
+      const originalCookie = cookieList[Number($('.index', this).val())];
       var cCookie = formCookieData($(this));
 
       if (cCookie === undefined) {
         return;
       }
 
-      deleteCookie(cCookie.url, cCookie.name, cCookie.storeId, function () {
+      const originalUrl = originalCookie ? buildCookieUrl(originalCookie) : cCookie.url;
+      const originalName = originalCookie?.name ?? cCookie.name;
+      const originalStoreId = originalCookie?.storeId ?? cCookie.storeId;
+      const originalPartitionKey = originalCookie?.partitionKey ?? cCookie.partitionKey;
+
+      deleteCookie(originalUrl, originalName, originalStoreId, originalPartitionKey, function () {
         chrome.cookies.set(cCookie, function () {
           if (--nCookiesToUpdate === 0) {
             onUpdateComplete();
@@ -163,7 +180,7 @@ async function start() {
         }
       }
 
-      chrome.cookies.getAll(filterURL, function (cks) {
+      getAllCookies(filterURL, function (cks) {
         var currentC;
         for (var i = 0; i < cks.length; i++) {
           currentC = cks[i];
@@ -176,7 +193,7 @@ async function start() {
           for (var x = 0; x < data.readOnly.length; x++) {
             try {
               var lock = data.readOnly[x];
-              if (lock.name === currentC.name && lock.domain === currentC.domain) {
+              if (cookiesHaveSameIdentity(lock, currentC)) {
                 currentC.isProtected = true;
                 break;
               }
@@ -382,7 +399,7 @@ async function start() {
           if (!filterMatchesCookie(newRule, currentCookie.name, currentCookie.domain, currentCookie.value)) continue;
 
           var url = buildUrl(currentCookie.domain, currentCookie.path, getUrlOfCookies());
-          deleteCookie(url, currentCookie.name, currentCookie.storeId);
+          deleteCookie(url, currentCookie.name, currentCookie.storeId, currentCookie.partitionKey);
         }
         data.nCookiesFlagged += cookieList.length;
         var exists = addBlockRule(data, newRule);
@@ -425,7 +442,7 @@ async function start() {
               newRule.name = currentCookie.name;
               addBlockRule(data, newRule);
               var url = buildUrl(currentCookie.domain, currentCookie.path, getUrlOfCookies());
-              deleteCookie(url, currentCookie.name, currentCookie.storeId);
+              deleteCookie(url, currentCookie.name, currentCookie.storeId, currentCookie.partitionKey);
             }
             data.nCookiesFlagged += nCookiesFlaggedThisTime;
             doSearch();
@@ -564,9 +581,14 @@ async function start() {
       var domain = $('.domain', cookie).val();
       var path = $('.path', cookie).val();
       var storeId = $('.storeId', cookie).val();
+      var index = Number($('.index', cookie).val());
+      var originalCookie = cookieList[index];
       var okFunction = function () {
-        var url = buildUrl(domain, path, getUrlOfCookies());
-        deleteCookie(url, name, storeId, function (success) {
+        var url = originalCookie ? buildCookieUrl(originalCookie) : buildUrl(domain, path, getUrlOfCookies());
+        var originalName = originalCookie?.name ?? name;
+        var originalStoreId = originalCookie?.storeId ?? storeId;
+        var partitionKey = originalCookie?.partitionKey;
+        deleteCookie(url, originalName, originalStoreId, partitionKey, function (success) {
           if (success === true) {
             var head = cookie.prev('h3');
             cookie.add(head).slideUp(function () {
@@ -779,6 +801,7 @@ async function start() {
 
   function formCookieData(form) {
     var index = $('.index', form).val();
+    var originalCookie = index !== undefined && index !== '' ? cookieList[Number(index)] : undefined;
     var name = $('.name', form).val();
     var value = $('.value', form).val();
     var domain = $('.domain', form).val();
@@ -830,6 +853,9 @@ async function start() {
     newCookie.secure = secure;
     newCookie.httpOnly = httpOnly;
     newCookie.sameSite = sameSite;
+
+    const partitionKey = clonePartitionKey(originalCookie?.partitionKey);
+    if (partitionKey !== undefined) newCookie.partitionKey = partitionKey;
 
     return newCookie;
   }
