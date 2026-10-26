@@ -1,5 +1,5 @@
-import '/lib/jquery-3.3.1.min.js';
-import '/lib/jquery-ui-1.12.1.custom.min.js';
+import '/lib/jquery-4.0.0.min.js';
+import '/lib/jquery-ui-1.14.2.min.js';
 import '/lib/uniform/jquery.uniform.js';
 
 import { startData } from '/js/data.js';
@@ -333,7 +333,7 @@ async function start() {
     );
 
     try {
-      let importCookies = $.parseJSON(text);
+      let importCookies = JSON.parse(text);
       if (typeof importCookies === 'object' && !Array.isArray(importCookies)) importCookies = [importCookies];
       for (const importCookie of importCookies) {
         try {

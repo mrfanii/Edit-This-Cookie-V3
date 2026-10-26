@@ -50,7 +50,7 @@ span.ui-icon {
   margin-top: 2px;
 }
 
-.ui-buttonset .ui-button {
+.ui-controlgroup .ui-button {
   height: 22px !important;
   margin-right: -0.5em !important;
 }

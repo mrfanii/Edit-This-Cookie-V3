@@ -1,6 +1,4 @@
-import '/lib/jquery-3.3.1.min.js';
-import '/lib/jquery-ui-1.12.1.custom.min.js';
-import '/lib/uniform/jquery.uniform.js';
+import '/lib/jquery-4.0.0.min.js';
 
 import { startData } from '/js/data.js';
 import { _getMessage } from '/js/utils.js';

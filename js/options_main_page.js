@@ -1,4 +1,3 @@
-import '/lib/jquery-3.3.1.min.js';
 import { getUrlVars } from '/js/utils.js';
 import { storage } from '/js/common-utils.js';
 
