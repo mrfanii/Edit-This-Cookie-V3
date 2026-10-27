@@ -1,4 +1,5 @@
-import { cookiesHaveSameIdentity, deleteCookie, getAllCookies } from '/js/cookie_helpers.js';
+import { cookiesHaveSameIdentity, deleteCookie, getAllCookies } from './cookie_helpers.js';
+import { isValidBlockRule } from './popup_helpers.js';
 
 export function getHost(url) {
   try {
@@ -10,6 +11,8 @@ export function getHost(url) {
 }
 
 export function addBlockRule(data, rule) {
+  if (!isValidBlockRule(rule)) return false;
+
   var dfilters = data.filters;
   for (var x = 0; x < dfilters.length; x++) {
     var currFilter = dfilters[x];
@@ -98,17 +101,18 @@ export function _getMessage(string, args) {
 }
 
 export function filterMatchesCookie(rule, name, domain, value) {
-  const ruleDomainReg = new RegExp(rule.domain);
-  if (rule.domain !== undefined && domain.match(ruleDomainReg) === null) {
-    return false;
-  }
-  const ruleNameReg = new RegExp(rule.name);
-  if (rule.name !== undefined && name.match(ruleNameReg) === null) {
-    return false;
-  }
-  const ruleValueReg = new RegExp(rule.value);
-  if (rule.value !== undefined && value.match(ruleValueReg) === null) {
-    return false;
+  for (const [pattern, candidate] of [
+    [rule.domain, domain],
+    [rule.name, name],
+    [rule.value, value],
+  ]) {
+    if (pattern === undefined) continue;
+
+    try {
+      if (!new RegExp(pattern).test(candidate ?? '')) return false;
+    } catch {
+      return false;
+    }
   }
   return true;
 }

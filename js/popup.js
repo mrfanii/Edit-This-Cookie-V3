@@ -27,10 +27,13 @@ import {
   downloadCookies,
 } from '/js/utils.js';
 import { customI18n } from '/lib/custom_i18n.js';
+import { applyTheme } from '/js/theme.js';
 import { localizePage } from '../lib/i18n_translator.js';
+import { buildBlockRule, cookieMatchesSearch, parseCookieImport, readCookieImportFile } from '/js/popup_helpers.js';
 
 async function start() {
   const { data, preferences } = await startData();
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
   localizePage();
   const cookiesToString = cookiesToStringGenerator(data, preferences);
@@ -41,6 +44,8 @@ async function start() {
   var pasteCookie = false;
   var currentLayout = 'none';
   var lastInput = '';
+  var latestListRequestId = 0;
+  var domainSearchTimer;
 
   const exportIcon = $('i', '#exportButton');
   exportIcon.removeClass('fa-copy fa-download');
@@ -84,6 +89,7 @@ async function start() {
   }
 
   function doSearch(isSeparateWindow) {
+    const requestId = ++latestListRequestId;
     var url = $('input', '#cookieSearchCondition').val();
     if (url.length < 3) return;
     var filter = new Filter();
@@ -92,7 +98,7 @@ async function start() {
     } else {
       filter.setDomain(url);
     }
-    createList(filter.getFilter(), isSeparateWindow);
+    createList(filter.getFilter(), isSeparateWindow, requestId);
   }
 
   function submit(currentTabID) {
@@ -149,13 +155,18 @@ async function start() {
       }
 
       deleteCookie(cCookie.url, cCookie.name, cCookie.storeId, function () {
-        chrome.cookies.set(cCookie, doSearch);
-        ++data.nCookiesCreated;
+        chrome.cookies.set(cCookie, function (createdCookie) {
+          if (chrome.runtime.lastError || createdCookie === null) return;
+
+          newCookie = false;
+          ++data.nCookiesCreated;
+          doSearch();
+        });
       });
     });
   }
 
-  function createList(filters, isSeparateWindow) {
+  function createList(filters, isSeparateWindow, requestId) {
     var filteredCookies = [];
 
     if (filters === null) filters = {};
@@ -173,6 +184,8 @@ async function start() {
     }
 
     chrome.cookies.getAllCookieStores(function (cookieStores) {
+      if (requestId !== latestListRequestId) return;
+
       for (let x = 0; x < cookieStores.length; x++) {
         if (cookieStores[x].tabIds.indexOf(currentTabID) != -1) {
           filterURL.storeId = cookieStores[x].id;
@@ -181,14 +194,16 @@ async function start() {
       }
 
       getAllCookies(filterURL, function (cks) {
+        if (requestId !== latestListRequestId) return;
+
         var currentC;
         for (var i = 0; i < cks.length; i++) {
           currentC = cks[i];
 
           if (filters.name !== undefined && currentC.name.toLowerCase().indexOf(filters.name.toLowerCase()) === -1) continue;
           if (filters.domain !== undefined && currentC.domain.toLowerCase().indexOf(filters.domain.toLowerCase()) === -1) continue;
-          if (filters.secure !== undefined && currentC.secure.toLowerCase().indexOf(filters.secure.toLowerCase()) === -1) continue;
-          if (filters.session !== undefined && currentC.session.toLowerCase().indexOf(filters.session.toLowerCase()) === -1) continue;
+          if (filters.secure !== undefined && String(currentC.secure).toLowerCase() !== String(filters.secure).toLowerCase()) continue;
+          if (filters.session !== undefined && String(currentC.session).toLowerCase() !== String(filters.session).toLowerCase()) continue;
 
           for (var x = 0; x < data.readOnly.length; x++) {
             try {
@@ -258,12 +273,12 @@ async function start() {
         }
       }
 
+      const nameElement = $('<b/>').text(currentC.name).toggleClass('cookie-protected-title', !!currentC.isProtected);
       var titleText;
       if (preferences.showDomainBeforeName) {
-        titleText = $('<p/>').text(domainText).append($('<b/>').text(currentC.name));
-        if (currentC.isProtected) $(':first-child', titleText).css('color', 'green');
+        titleText = $('<p/>').text(domainText).append(nameElement);
       } else {
-        titleText = $('<p/>').append($('<b/>').text(currentC.name)).append($('<span/>').text(domainText));
+        titleText = $('<p/>').append(nameElement).append($('<span/>').text(domainText));
       }
 
       var titleElement = $('<h3/>').append($('<a/>').html(titleText.html()).attr('href', '#'));
@@ -321,31 +336,30 @@ async function start() {
     });
   }
 
-  function importCookies() {
+  async function importCookies() {
     var nCookiesImportedThisTime = 0;
     var text = $('.value', '#pasteCookie').val();
     var error = $('.error', '#pasteCookie');
     error.hide();
-    error.text('For format reference export cookies in JSON');
+    error.text('JSON · Netscape · name=value · Perl::LWP');
     error.html(
       error.html() +
         "<br> Also check&nbsp;<a href='http://developer.chrome.com/extensions/cookies.html#type-Cookie' target='_blank'>Developer Chrome Cookie</a><br>Error:",
     );
 
     try {
-      let importCookies = JSON.parse(text);
-      if (typeof importCookies === 'object' && !Array.isArray(importCookies)) importCookies = [importCookies];
-      for (const importCookie of importCookies) {
+      const { cookies: importedCookies } = parseCookieImport(text, getUrlOfCookies());
+      for (const [index, importCookie] of importedCookies.entries()) {
         try {
           const cookie = cookieForCreationFromFullCookie(importCookie);
-          chrome.cookies.set(cookie);
+          await chrome.cookies.set(cookie);
           nCookiesImportedThisTime++;
         } catch (e) {
           error.html(
             error.html() +
               '<br>' +
               $('<div/>')
-                .text('Cookie number ' + i)
+                .text('Cookie number ' + (index + 1))
                 .html() +
               '<br>' +
               $('<div/>').text(e.message).html(),
@@ -378,21 +392,25 @@ async function start() {
     }
     $('#submitFiltersButton').button();
 
-    $('#submitFiltersDiv')
-      .unbind()
-      .click(function () {
-        var domainChecked = $('.filterDomain:checked', $(this).parent()).val() !== undefined;
-        var domain = $('#filterByDomain', $(this).parent()).text();
-        var nameChecked = $('.filterName:checked', $(this).parent()).val() !== undefined;
-        var name = $('#filterByName', $(this).parent()).text();
-        var valueChecked = $('.filterValue:checked', $(this).parent()).val() !== undefined;
-        var value = $('#filterByValue', $(this).parent()).text();
+    $('#submitFiltersButton')
+      .off('click.submitFilters')
+      .on('click.submitFilters', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-        var newRule = {};
-        if (domainChecked) newRule.domain = domain;
-        if (nameChecked) newRule.name = name;
-        if (valueChecked) newRule.value = value;
+        const filterForm = $('#cookieFilter');
+        const newRule = buildBlockRule({
+          domainChecked: $('.filterDomain:checked', filterForm).length > 0,
+          domain: $('#filterByDomain', filterForm).text(),
+          nameChecked: $('.filterName:checked', filterForm).length > 0,
+          name: $('#filterByName', filterForm).text(),
+          valueChecked: $('.filterValue:checked', filterForm).length > 0,
+          value: $('#filterByValue', filterForm).text(),
+        });
 
+        if (newRule === null) return false;
+
+        var flaggedCookies = 0;
         for (var i = 0; i < cookieList.length; i++) {
           var currentCookie = cookieList[i];
           if (currentCookie.isProtected) continue;
@@ -400,12 +418,13 @@ async function start() {
 
           var url = buildUrl(currentCookie.domain, currentCookie.path, getUrlOfCookies());
           deleteCookie(url, currentCookie.name, currentCookie.storeId, currentCookie.partitionKey);
+          flaggedCookies++;
         }
-        data.nCookiesFlagged += cookieList.length;
-        var exists = addBlockRule(data, newRule);
+        data.nCookiesFlagged += flaggedCookies;
+        addBlockRule(data, newRule);
 
         doSearch();
-        return;
+        return false;
       });
 
     $('#deleteAllButton')
@@ -507,9 +526,14 @@ async function start() {
         }
 
         data.nCookiesExported += cookieList.length;
-        $(this).animate({ backgroundColor: '#B3FFBD' }, 300, function () {
-          $(this).animate({ backgroundColor: '#EDEDED' }, 500);
-        });
+        const rootStyle = getComputedStyle(document.documentElement);
+        const feedbackColor = rootStyle.getPropertyValue('--success-soft').trim();
+        const restingColor = rootStyle.getPropertyValue('--command-surface').trim();
+        $(this)
+          .stop(true, true)
+          .animate({ backgroundColor: feedbackColor }, 300, function () {
+            $(this).animate({ backgroundColor: restingColor }, 500);
+          });
       });
     $('#pasteButton')
       .unbind()
@@ -519,28 +543,72 @@ async function start() {
         swithLayout('paste');
       });
 
+    $('#importFileInput')
+      .off('change.importFile')
+      .on('change.importFile', async function () {
+        const [file] = this.files;
+        if (file === undefined) return;
+
+        const error = $('.error', '#pasteCookie');
+        try {
+          const text = await readCookieImportFile(file);
+          $('.value', '#pasteCookie').val(text).focus();
+          $('#importFileName').text(file.name);
+          error.empty().hide();
+        } catch (readError) {
+          error.text(readError.message).show();
+        } finally {
+          $(this).val('');
+        }
+      });
+
+    $('.value', '#pasteCookie')
+      .off('input.importFileName')
+      .on('input.importFileName', function () {
+        $('#importFileName').empty();
+      });
+
     $('#searchButton')
       .unbind()
       .click(function () {
-        $('#searchField').focus();
-        $('#searchField').fadeIn('normal', function () {
-          $('#searchField').focus();
-        });
-        $('#searchField').focus();
+        $('#searchBox')
+          .stop(true, true)
+          .fadeIn('normal', function () {
+            $('#searchField').focus();
+          });
       });
 
     $('#searchBox')
       .unbind()
-      .focusout(function () {
-        $('#searchField').fadeOut();
+      .focusout(function (event) {
+        if (event.relatedTarget && $.contains(this, event.relatedTarget)) return;
+        $('#searchBox').fadeOut();
       });
 
     $('#searchField')
       .unbind()
-      .keyup(function () {
+      .on('input', function () {
         find($(this).val());
+      })
+      .on('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        $(this).val('');
+        find('');
+        $('#searchBox').fadeOut();
       });
-    $('input', '#cookieSearchCondition').unbind().keyup(doSearch);
+    $('input', '#cookieSearchCondition')
+      .unbind()
+      .on('input', function () {
+        clearTimeout(domainSearchTimer);
+        domainSearchTimer = setTimeout(function () {
+          doSearch();
+        }, 250);
+      })
+      .on('keydown', function (event) {
+        if (event.key !== 'Enter') return;
+        clearTimeout(domainSearchTimer);
+        doSearch();
+      });
     clearNewCookieData();
 
     $('.toast').each(function () {
@@ -548,10 +616,9 @@ async function start() {
       $(this).css('margin-left', '-' + $(this).width() / 2 + 'px');
     });
 
-    $('textarea.value, input.domain, input.path').keydown(function (event) {
+    $('textarea.value, input.name, input.domain, input.path').keydown(function (event) {
       if (event.ctrlKey && event.keyCode === 13) {
         submit(currentTabID);
-        console.log('trigger save (submit)');
         event.preventDefault();
         event.stopPropagation();
       }
@@ -627,12 +694,12 @@ async function start() {
         $('.unprotected', cookie).fadeOut('fast', function () {
           $('.protected', cookie).fadeIn('fast');
         });
-        titleName.css('color', 'green');
+        titleName.addClass('cookie-protected-title');
       } else {
         $('.protected', cookie).fadeOut('fast', function () {
           $('.unprotected', cookie).fadeIn('fast');
         });
-        titleName.css('color', '#000');
+        titleName.removeClass('cookie-protected-title');
       }
     });
   }
@@ -685,22 +752,38 @@ async function start() {
     if (pattern === lastInput) return;
 
     lastInput = pattern;
-    $($('.cookie', '#cookiesList').get().reverse()).each(function () {
-      var name = $('.name', $(this)).val();
-      var node = $(this);
-      var h3 = $(this).prev();
-      if (pattern !== '' && name.toLowerCase().indexOf(pattern.toLowerCase()) !== -1) {
-        h3.addClass('searchResult');
-        node.detach();
-        h3.detach();
-        $('#cookiesList').prepend(node);
-        $('#cookiesList').prepend(h3);
-      } else {
-        h3.removeClass('searchResult');
-      }
+    const cookiesAccordion = $('#cookiesList');
+    const headers = cookiesAccordion.children('h3');
+    const hasPattern = pattern.trim() !== '';
+    let firstMatchIndex = null;
+
+    if (headers.length === 0) return;
+
+    cookiesAccordion.accordion('option', 'collapsible', true);
+    cookiesAccordion.accordion('option', 'active', false);
+
+    headers.each(function (index) {
+      const header = $(this);
+      const cookie = header.next('.cookie');
+      const matches = cookieMatchesSearch(
+        {
+          name: $('.name', cookie).val(),
+          domain: $('.domain', cookie).val(),
+          value: $('.value', cookie).val(),
+        },
+        pattern,
+      );
+
+      header.toggle(matches);
+      header.toggleClass('searchResult', hasPattern && matches);
+      cookie.hide();
+      if (matches && firstMatchIndex === null) firstMatchIndex = index;
     });
-    $('#cookiesList').accordion('option', 'collapsible', 'true');
-    $('#cookiesList').accordion('option', 'active', cookieList.length);
+
+    cookiesAccordion.accordion('refresh');
+    if (hasPattern && firstMatchIndex !== null) {
+      cookiesAccordion.accordion('option', 'active', firstMatchIndex);
+    }
   }
 
   function swithLayout(newLayout) {
@@ -829,7 +912,6 @@ async function start() {
       // If the expiration date is not valid, tell the user by making the
       // invalid date red and showing it in the accordion
       if (isNaN(expirationDate)) {
-        console.log('Invalid date');
         $('.expiration', form).addClass('error');
         $('.expiration', form).focus();
         if (index !== undefined) {
