@@ -5,10 +5,7 @@ export function setPageCooserEvents() {
     var panel = $(this).attr('id');
     if ($(this).hasClass('selected')) return;
     var id = $(this).attr('id');
-    if (id == 'getting_started') {
-      openExtPage('https://editcookie.com/#start');
-      return;
-    } else if (id == 'help') {
+    if (id == 'help') {
       openExtPage('https://editcookie.com/#faq');
       return;
     }

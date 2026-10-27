@@ -1,72 +1,130 @@
+#rules-box {
+  max-width: 1040px;
+}
+
 #addRule {
   float: right;
-  border-bottom-width: 0 !important;
-  width: 130px;
-  height: 25px;
-  margin-top: -37px;
+  width: auto;
+  min-width: 132px;
+  height: 38px;
+  margin: -62px 0 0;
+  padding: 9px 15px;
+  border: 0 !important;
+  border-radius: 9px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  line-height: 20px;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.22);
 }
 
-.active {
-  background-color: #f7f7f7;
+#addRule:hover {
+  background: var(--accent-hover);
 }
 
-.new_rule_operations {
+#addRule .fa-solid {
+  margin-right: 7px;
+}
+
+.active div {
+  background: var(--accent-soft) !important;
+}
+
+.new_rule_operations,
+.operations {
   position: absolute;
+  z-index: 3;
   display: none;
+  right: 10px;
+  left: auto !important;
 }
 
-.new_rule_operations > * {
+.new_rule_operations > *,
+.operations > * {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-muted);
   cursor: pointer;
-  width: 10px;
+  box-shadow: var(--shadow-sm);
 }
 
-.table {
-  position: relative;
+.new_rule_operations > *:hover,
+.operations > *:hover {
+  border-color: var(--danger-border);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.new_rule_operations .cmd_accept:hover {
+  border-color: var(--success-border);
+  background: var(--success-soft);
+  color: var(--success);
 }
 
 .operations {
-  display: none;
-  position: absolute;
-  left: 5px;
-}
-
-.operations > * {
-  cursor: pointer;
+  padding-top: 0;
 }
 
 .domain_field {
-  padding-left: 30px !important;
-  width: 25%;
+  width: 30%;
+  padding-left: 14px !important;
 }
 
 .name_field {
-  width: 25%;
+  width: 27%;
 }
 
 .value_field {
-  width: 40%;
+  width: 43%;
+  padding-right: 48px !important;
+  word-break: break-word;
+}
+
+.new_row .value_field {
+  padding-right: 78px !important;
+}
+
+.new_row input {
+  width: 100% !important;
+  min-height: 34px;
 }
 
 .popup {
   position: fixed;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
   display: none;
-  top: 35%;
-  left: 35%;
-  height: 21%;
-  width: 30%;
+  width: min(520px, calc(100% - 48px));
+  height: auto;
+  margin: 0;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.3);
+  transform: translate(-50%, -50%);
 }
 
 #submitDiv {
-  float: right;
-  margin-right: 5px;
-  margin-top: 5px;
+  float: none;
+  margin: 18px 0 0;
+  text-align: right;
 }
 
 #submitButton {
-  right: 0;
-  height: 30px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  padding-bottom: 5px;
-  padding-top: 5px;
+  min-width: 110px;
+  height: 38px;
+  margin: 0;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
 }

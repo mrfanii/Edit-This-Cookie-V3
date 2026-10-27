@@ -1,7 +1,8 @@
 import '/lib/jquery-4.0.0.min.js';
 
 import { startData } from '/js/data.js';
-import { _getMessage } from '/js/utils.js';
+import { applyTheme } from '/js/theme.js';
+import { _getMessage, deleteReadOnlyRule } from '/js/utils.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { localizePage } from '../lib/i18n_translator.js';
 import { setPageCooserEvents } from './options_page_chooser.js';
@@ -10,16 +11,16 @@ async function start() {
   const { data, preferences } = await startData(function () {
     location.reload(true);
   });
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
 
   let forceHideOperations = false;
 
   function setEvents() {
-    //todo: fix this
     $('.cmd_delete')
       .unbind()
       .click(function () {
-        if (!data.showAlerts || confirm(_getMessage('Alert_deleteRule') + '?')) {
+        if (!preferences.showAlerts || confirm(_getMessage('Alert_deleteRule') + '?')) {
           hideEditCommands();
           var index = $('.active').attr('index');
           forceHideOperations = true;
@@ -28,7 +29,6 @@ async function start() {
           $('.active').fadeOut(function () {
             forceHideOperations = false;
             deleteReadOnlyRule(data, index);
-            location.reload(true);
             return;
           });
         }
@@ -40,26 +40,10 @@ async function start() {
         $('.active').removeClass('active');
         $(this).addClass('active');
 
-        $('.operations').clearQueue();
-
-        $('.operations:hidden').animate(
-          {
-            top: $(this).position().top,
-            left: $(this).position().left + 5,
-          },
-          0,
-          function () {
-            $('.operations:hidden').show('slide', 200);
-          },
-        );
-
-        $('.operations').animate(
-          {
-            top: $(this).position().top,
-            left: $(this).position().left + 5,
-          },
-          250,
-        );
+        const operations = $('.operations');
+        const buttonHeight = $('.cmd_delete', operations).outerHeight();
+        const top = $(this).position().top + ($(this).outerHeight() - buttonHeight) / 2;
+        operations.clearQueue().css('top', top).show();
       });
   }
 

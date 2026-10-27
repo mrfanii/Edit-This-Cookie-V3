@@ -1,6 +1,38 @@
+:root {
+  color-scheme: light;
+  --surface: #ffffff;
+  --surface-soft: #fafafa;
+  --surface-muted: #e7e7e7;
+  --border: #b3b3b3;
+  --text: #000000;
+  --text-muted: #616b78;
+  --hover: #deecff;
+  --warning: #ffc2c2;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --surface: #111827;
+  --surface-soft: #0b1220;
+  --surface-muted: #1f2937;
+  --border: #475569;
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --hover: #1e293b;
+  --warning: #4a1d24;
+}
+
+html {
+  min-height: 100%;
+  background: var(--surface);
+}
+
 body {
+  min-height: 100vh;
   padding: 0;
   margin: 0;
+  background: var(--surface);
+  color: var(--text);
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -9,8 +41,8 @@ body {
   float: left;
   width: 200px;
   height: 100%;
-  background: #d6dde5;
-  border-right: #b3b3b3;
+  background: var(--surface-muted);
+  border-right: var(--border);
   border-right-width: 1px;
   border-right-style: solid;
 }
@@ -20,7 +52,7 @@ body {
   width: auto;
   height: 100%;
   margin-bottom: 30px;
-  background: #ffffff;
+  background: var(--surface);
 }
 
 .datagrid table {
@@ -31,7 +63,7 @@ body {
 }
 
 .datagrid {
-  background: #fff;
+  background: var(--surface);
   overflow: hidden;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -46,11 +78,11 @@ body {
 .datagrid table thead th {
   background: 0;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E7E7E7', endColorstr='#FFFFFF');
-  background-color: #e7e7e7;
-  color: #000;
+  background-color: var(--surface-muted);
+  color: var(--text);
   font-size: 12px;
   font-weight: 700;
-  border-left: 1px solid #b3b3b3;
+  border-left: 1px solid var(--border);
 }
 
 .datagrid table thead th:first-child {
@@ -58,15 +90,15 @@ body {
 }
 
 .datagrid table tbody td {
-  color: #000;
-  border-left: 1px solid #b3b3b3;
+  color: var(--text);
+  border-left: 1px solid var(--border);
   font-size: 12px;
   font-weight: 400;
 }
 
 .datagrid table tbody tr:nth-child(even) {
-  background: #fafafa !important;
-  color: #000;
+  background: var(--surface-soft) !important;
+  color: var(--text);
 }
 
 .datagrid table tbody td:first-child {
@@ -117,11 +149,11 @@ textarea {
 }
 
 .disabled {
-  color: #919191 !important;
+  color: var(--text-muted) !important;
 }
 
 .datagrid table tbody tr:hover {
-  background: #deecff !important;
+  background: var(--hover) !important;
 }
 
 #beta_alter {
@@ -133,9 +165,9 @@ textarea {
   right: 0;
   width: 100%;
   height: 30px;
-  background-color: #ffc2c2;
+  background-color: var(--warning);
   text-align: center;
-  color: #000;
+  color: var(--text);
 }
 
 #beta_alter > div {
@@ -145,4 +177,12 @@ textarea {
 
 #beta_alter a {
   color: red;
+}
+
+textarea,
+input,
+select {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
 }

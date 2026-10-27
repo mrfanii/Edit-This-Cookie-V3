@@ -2,12 +2,14 @@ import '/lib/jquery-4.0.0.min.js';
 import '/lib/uniform/jquery.uniform.js';
 
 import { startData } from '/js/data.js';
+import { applyTheme } from '/js/theme.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { setPageCooserEvents } from './options_page_chooser.js';
 import { localizePage } from '../lib/i18n_translator.js';
 
 async function start() {
   const { data, preferences } = await startData();
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
   localizePage();
   function setEvents() {

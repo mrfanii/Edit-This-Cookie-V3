@@ -5,14 +5,179 @@ import '/lib/uniform/jquery.uniform.js';
 import { localizePage } from '/lib/i18n_translator.js';
 import { isChristmasPeriod } from '/js/common-utils.js';
 import { startData } from '/js/data.js';
+import { applyTheme } from '/js/theme.js';
 import { cookieForCreationFromFullCookie, getAllCookies } from '/js/cookie_helpers.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { setPageCooserEvents } from './options_page_chooser.js';
 
+function closeCustomSelect(wrapper, restoreFocus = false) {
+  const trigger = wrapper.find('.custom-select-trigger');
+  wrapper.removeClass('is-open opens-upward');
+  trigger.attr('aria-expanded', 'false');
+  wrapper.find('.custom-select-menu').prop('hidden', true);
+  if (restoreFocus) trigger.trigger('focus');
+}
+
+function closeAllCustomSelects(except) {
+  $('.selector.custom-select.is-open').each(function () {
+    if (this !== except) closeCustomSelect($(this));
+  });
+}
+
+function refreshCustomSelect(selectElement) {
+  const select = $(selectElement);
+  const wrapper = select.closest('.selector.custom-select');
+  if (wrapper.length === 0) return;
+
+  const trigger = wrapper.find('.custom-select-trigger');
+  const menu = wrapper.find('.custom-select-menu');
+  const selectedIndex = selectElement.selectedIndex;
+  const selectedOption = selectElement.options[selectedIndex];
+  const label = $(`label[for='${selectElement.id}']`).first();
+
+  const labelText = label.text().trim();
+  trigger.text(selectedOption?.text ?? '').prop('disabled', selectElement.disabled);
+  if (labelText === '') trigger.removeAttr('aria-label');
+  else trigger.attr('aria-label', `${labelText}: ${selectedOption?.text ?? ''}`);
+  wrapper.toggleClass('disabled', selectElement.disabled);
+  menu.empty();
+
+  [...selectElement.options].forEach((option, index) => {
+    $('<button>', {
+      type: 'button',
+      class: 'custom-select-option',
+      role: 'option',
+      text: option.text,
+      disabled: option.disabled,
+      'data-index': index,
+      'aria-selected': index === selectedIndex ? 'true' : 'false',
+    })
+      .toggleClass('is-selected', index === selectedIndex)
+      .appendTo(menu);
+  });
+
+  if (selectElement.disabled) closeCustomSelect(wrapper);
+}
+
+function refreshCustomSelects() {
+  $('#options-box select').each(function () {
+    refreshCustomSelect(this);
+  });
+}
+
+function setupCustomSelects() {
+  $('#options-box select').each(function () {
+    const selectElement = this;
+    const select = $(selectElement);
+    let wrapper = select.closest('div.selector');
+    if (wrapper.length === 0) {
+      select.wrap('<div class="selector"></div>');
+      wrapper = select.parent();
+    }
+    if (wrapper.hasClass('custom-select')) {
+      refreshCustomSelect(selectElement);
+      return;
+    }
+
+    const menuId = `${selectElement.id}-custom-menu`;
+    const trigger = $('<button>', {
+      type: 'button',
+      class: 'custom-select-trigger',
+      'aria-haspopup': 'listbox',
+      'aria-expanded': 'false',
+      'aria-controls': menuId,
+    });
+    const menu = $('<div>', {
+      id: menuId,
+      class: 'custom-select-menu',
+      role: 'listbox',
+      hidden: true,
+    });
+
+    wrapper.addClass('custom-select');
+    select.addClass('custom-select-native').attr({ tabindex: -1, 'aria-hidden': 'true' });
+    wrapper.append(trigger, menu);
+
+    trigger.on('click.customSelect', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (selectElement.disabled) return;
+
+      const willOpen = !wrapper.hasClass('is-open');
+      closeAllCustomSelects(wrapper[0]);
+      wrapper.toggleClass('is-open', willOpen);
+      trigger.attr('aria-expanded', willOpen ? 'true' : 'false');
+      menu.prop('hidden', !willOpen);
+      if (willOpen) {
+        const wrapperBounds = wrapper[0].getBoundingClientRect();
+        const menuHeight = Math.min(menu[0].scrollHeight, 276) + 7;
+        const opensUpward = window.innerHeight - wrapperBounds.bottom < menuHeight && wrapperBounds.top > menuHeight;
+        wrapper.toggleClass('opens-upward', opensUpward);
+        menu.find('.is-selected').trigger('focus');
+      }
+    });
+
+    trigger.on('keydown.customSelect', function (event) {
+      if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      if (!wrapper.hasClass('is-open')) trigger.trigger('click');
+
+      const options = menu.find('.custom-select-option:not(:disabled)');
+      const selected = options.filter('.is-selected');
+      let target = selected.length ? selected : options.first();
+      if (event.key === 'ArrowUp' || event.key === 'End') target = options.last();
+      if (event.key === 'Home') target = options.first();
+      target.trigger('focus');
+    });
+
+    menu.on('click.customSelect', '.custom-select-option', function () {
+      if (this.disabled) return;
+      selectElement.selectedIndex = Number(this.dataset.index);
+      select.trigger('change');
+      closeCustomSelect(wrapper, true);
+    });
+
+    menu.on('keydown.customSelect', '.custom-select-option', function (event) {
+      const options = menu.find('.custom-select-option:not(:disabled)');
+      const index = options.index(this);
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeCustomSelect(wrapper, true);
+      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const offset = event.key === 'ArrowDown' ? 1 : -1;
+        options.eq((index + offset + options.length) % options.length).trigger('focus');
+      } else if (event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+        options.eq(event.key === 'Home' ? 0 : -1).trigger('focus');
+      } else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        $(this).trigger('click');
+      } else if (event.key === 'Tab') {
+        closeCustomSelect(wrapper);
+      }
+    });
+
+    select.on('change.customSelect', function () {
+      refreshCustomSelect(selectElement);
+    });
+    refreshCustomSelect(selectElement);
+  });
+
+  $(document)
+    .off('click.customSelect')
+    .on('click.customSelect', function (event) {
+      if ($(event.target).closest('.selector.custom-select').length === 0) closeAllCustomSelects();
+    });
+}
+
 async function start() {
   const { data, preferences } = await startData(function () {
+    applyTheme(preferences.theme);
     setOptions();
   });
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
 
   let totalCookies;
@@ -74,6 +239,7 @@ async function start() {
     $("input:radio[value='" + preferences.maxCookieAgeType + "']").prop('checked', true);
     $('#maxDateType').controlgroup('refresh');
 
+    $('#theme').val(preferences.theme);
     $('#copyCookiesType').val(preferences.copyCookiesType);
     $('#exportCookiesAction').val(preferences.exportCookiesAction);
 
@@ -87,6 +253,7 @@ async function start() {
     $('#showDevToolsPanel').prop('checked', preferences.showDevToolsPanel);
 
     $.uniform.update();
+    refreshCustomSelects();
   }
 
   function setEvents() {
@@ -174,6 +341,11 @@ async function start() {
         });
       });
     });
+    $('#theme').change(function () {
+      preferences.theme = $('#theme').val();
+      applyTheme(preferences.theme);
+    });
+
     $('#useCustomLocale').click(function () {
       preferences.useCustomLocale = $('#useCustomLocale').prop('checked');
       top.location.reload();
@@ -256,7 +428,6 @@ async function start() {
     var cookie = cookies.pop();
     var maxAllowedExpiration = Math.round(new Date().getTime() / 1000) + preferences.maxCookieAge * preferences.maxCookieAgeType;
     if (cookie.expirationDate != undefined && cookie.expirationDate > maxAllowedExpiration) {
-      console.log("Shortening life of cookie '" + cookie.name + "' from '" + cookie.expirationDate + "' to '" + maxAllowedExpiration + "'");
       var newCookie = cookieForCreationFromFullCookie(cookie);
       if (!cookie.session) newCookie.expirationDate = maxAllowedExpiration;
       chrome.cookies.set(newCookie, function () {
@@ -268,8 +439,9 @@ async function start() {
 
   localizePage();
   setPageCooserEvents();
-  $('input:checkbox, input:text, select').uniform();
+  $('input:checkbox, input:text').uniform();
   setOptions();
+  setupCustomSelects();
   setEvents();
 }
 window.addEventListener('load', start);

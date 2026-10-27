@@ -16,7 +16,7 @@
     <div id="navigation">
       <h1>EditThisCookie</h1>
       <ul>
-        <li class="chooser" id="getting_started" i18n="getting_started"></li>
+        <li class="chooser" id="support" i18n="getting_started"></li>
         <li class="chooser selected" id="user_preferences" i18n="Options"></li>
         <li class="chooser" id="block_rules" i18n="Blocked_Cookies"></li>
         <li class="chooser" id="readonly_rules" i18n="Protected_Cookies"></li>
@@ -26,6 +26,15 @@
     <div id="options-box" class="box">
       <h1 i18n="Options"></h1>
       <hr />
+      <div class="formLine">
+        <span class="ui-icon ui-icon-minus"></span>
+        <label for="theme" class="formLabel" i18n="Theme"></label>
+        <select type="select" id="theme">
+          <option value="system" i18n="Theme_System"></option>
+          <option value="light" i18n="Theme_Light"></option>
+          <option value="dark" i18n="Theme_Dark"></option>
+        </select>
+      </div>
       <div class="formLine">
         <input type="checkbox" class="checkbox" id="showAlerts" />
         <label for="showAlerts" class="formLabel" i18n="Show_Alerts"></label>

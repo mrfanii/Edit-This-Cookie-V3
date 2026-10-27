@@ -2,6 +2,7 @@ import '/lib/jquery-4.0.0.min.js';
 import '/lib/jquery-ui-1.14.2.min.js';
 
 import { startData } from '/js/data.js';
+import { applyTheme } from '/js/theme.js';
 import { addBlockRule, _getMessage, deleteBlockRule } from '/js/utils.js';
 import { customI18n } from '/lib/custom_i18n.js';
 import { localizePage } from '../lib/i18n_translator.js';
@@ -11,13 +12,27 @@ async function start() {
   const { data, preferences } = await startData(function () {
     location.reload(true);
   });
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
 
   let forceHideOperations = false;
   let newRowVisible = false;
 
   function setEvents() {
-    $('#submitButton').button();
+    $('#submitButton')
+      .button()
+      .off('click.submitRule')
+      .on('click.submitRule', function (event) {
+        event.preventDefault();
+        submitRule();
+      });
+    $('#ruleDomain, #ruleName, #ruleValue')
+      .off('focus.clearAnyValue')
+      .on('focus.clearAnyValue', function () {
+        if (this.value === 'any') {
+          this.value = '';
+        }
+      });
     $('#addRule')
       .button()
       .unbind()
@@ -46,7 +61,6 @@ async function start() {
             } else {
               $('#no_rules1').detach();
             }
-            location.reload(true);
             return;
           });
         }
@@ -73,29 +87,10 @@ async function start() {
         // add active class to current element
         $(this).addClass('active');
 
-        $('.operations').clearQueue();
-
-        $('.operations:hidden').animate(
-          {
-            top: $(this).position().top,
-          },
-          0,
-          function () {
-            $('.operations:hidden').css('display', 'inline-block');
-          },
-        );
-
-        // set bucket icon position
-        var index = $(this).attr('index');
-        var tableRowHeight = $('.table_row').height();
-        var offsetTop = 40; // with the bucket in position: relative, we need to know pad for heading row
-        var newTop = offsetTop + index * tableRowHeight;
-        $('.operations').animate(
-          {
-            top: newTop,
-          },
-          250,
-        );
+        const operations = $('.operations');
+        const buttonHeight = $('.cmd_delete', operations).outerHeight();
+        const top = $(this).position().top + ($(this).outerHeight() - buttonHeight) / 2;
+        operations.clearQueue().css({ top: top, display: 'inline-block' });
       });
   }
 

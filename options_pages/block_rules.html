@@ -16,7 +16,7 @@
     <div id="navigation">
       <h1>EditThisCookie</h1>
       <ul>
-        <li class="chooser" id="getting_started" i18n="getting_started"></li>
+        <li class="chooser" id="support" i18n="getting_started"></li>
         <li class="chooser" id="user_preferences" i18n="Options"></li>
         <li class="chooser selected" id="block_rules" i18n="Blocked_Cookies"></li>
         <li class="chooser" id="readonly_rules" i18n="Protected_Cookies"></li>
@@ -82,17 +82,17 @@
         <div class="title" i18n="Flag_New_Cookie"></div>
         <br />
         <label class="inputLabel" i18n="domain"></label>
-        <input id="ruleDomain" type="text" value="any" onfocus="if (this.value=='any') this.value='';" />
+        <input id="ruleDomain" type="text" value="any" />
         <br />
         <label class="inputLabel" i18n="name"></label>
-        <input id="ruleName" type="text" value="any" onfocus="if (this.value=='any') this.value='';" />
+        <input id="ruleName" type="text" value="any" />
         <br />
         <label class="inputLabel" i18n="value"></label>
-        <input id="ruleValue" type="text" value="any" onfocus="if (this.value=='any') this.value='';" />
+        <input id="ruleValue" type="text" value="any" />
         <br />
         <div style="margin-top: 10px; font-size: smaller; color: #949494; text-align: center" i18n="useRegularExpressions"></div>
         <div id="submitDiv">
-          <input onClick="submitRule()" id="submitButton" type="submit" value="" i18n="Alert_submitAll" />
+          <input id="submitButton" type="submit" value="" i18n="Alert_submitAll" />
         </div>
       </div>
     </div>

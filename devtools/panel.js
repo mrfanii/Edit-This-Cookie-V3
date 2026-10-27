@@ -4,6 +4,7 @@ import '/lib/tablesorter/jquery.tablesorter.widgets.min.js';
 import '/lib/jquery.jeditable.js';
 
 import { startData } from '/js/data.js';
+import { applyTheme } from '/js/theme.js';
 import { getUrlVars } from '/js/utils.js';
 import { buildUrl, clonePartitionKey, getAllCookies } from '/js/cookie_helpers.js';
 import { customI18n } from '/lib/custom_i18n.js';
@@ -11,6 +12,7 @@ import { localizePage } from '../lib/i18n_translator.js';
 
 async function start() {
   const { data, preferences } = await startData();
+  applyTheme(preferences.theme);
   chrome.i18n = await customI18n(data, preferences);
   localizePage();
   var tabURL;
@@ -41,7 +43,6 @@ async function start() {
       return;
     }
     var tabId = chrome.devtools.inspectedWindow.tabId;
-    console.log({ tabId });
     backgroundPageConnection.postMessage({
       action: 'getall',
       tabId: tabId,

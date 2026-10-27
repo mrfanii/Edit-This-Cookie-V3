@@ -1,89 +1,106 @@
-#paypal-slider {
-  clear: both;
-  float: left;
-  max-width: 400px;
-  width: 60%;
+#support-box {
+  --support-website: #4f46e5;
+  --support-rating: #d97706;
+  --support-issues: #0891b2;
+  --support-source: #16803c;
+  --support-contact: #2563eb;
+  --support-translations: #7c3aed;
+
+  display: grid;
+  max-width: 900px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
 }
 
-#paypal-amount {
-  float: left;
-  width: 210px;
-  height: 30px;
-  margin-top: -4px;
-  margin-left: 15px;
+#support-box > hr {
+  display: none;
 }
 
-#paypal-custom-amount {
-  float: left;
-  margin-top: -1px;
+#support-box > .linkify {
+  display: grid;
+  min-height: 126px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-soft);
+  grid-template-columns: 54px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
-#donation-buttons-container {
-  float: right;
-  margin-top: -80px;
+#support-box > .linkify:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.1);
+  transform: translateY(-2px);
 }
 
-#donation-buttons-container > div {
-  margin: 0px !important;
-  cursor: pointer;
+#support-box .section-title {
+  grid-column: 2;
+  align-self: end;
 }
 
-#paypal-donate-button {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: #bdbdbd;
+#support-box .linkify > div:not(.section-title) {
+  display: contents;
 }
 
-.donate-button {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  padding: 8px;
-  margin-left: 10px;
+#support-box .linkify i {
+  grid-row: 1 / span 2;
+  width: 46px;
+  margin: 0 !important;
+  font-size: 34px !important;
+  text-align: center;
+}
+#support-box .support-icon {
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
 }
 
-#paypal-benefits {
-  clear: both;
-  margin-right: 120px;
-  padding-top: 0px;
-  font-size: 110%;
+#support-box .linkify:hover .support-icon {
+  transform: scale(1.06);
 }
 
-#benefits-list {
-  list-style-type: square;
-  padding-left: 20px;
+#support-box .support-icon-website {
+  color: var(--support-website);
 }
 
-.benefit-unmatched {
-  color: #999;
-  text-decoration: line-through;
+#support-box .support-icon-rating {
+  color: var(--support-rating);
 }
 
-li#support-chooser {
-  color: rgb(255, 0, 0);
+#support-box .support-icon-issues {
+  color: var(--support-issues);
 }
 
-li#support-chooser > img {
-  margin-left: -18px;
+#support-box .support-icon-source {
+  color: var(--support-source);
 }
 
-li#support-chooser:hover {
-  color: rgb(255, 100, 100);
+#support-box .support-icon-contact {
+  color: var(--support-contact);
 }
 
-li#support-chooser.selected {
-  -webkit-border-start-color: rgb(255, 0, 0);
-  color: rgb(255, 0, 0);
+#support-box .support-icon-translations {
+  color: var(--support-translations);
 }
 
-.table {
-  width: auto !important;
-  margin-left: 30px;
+html[data-theme='dark'] #support-box {
+  --support-website: #a5b4fc;
+  --support-rating: #fbbf24;
+  --support-issues: #22d3ee;
+  --support-source: #4ade80;
+  --support-contact: #60a5fa;
+  --support-translations: #c084fc;
 }
 
-.table_row div {
-  height: 1.3em;
-}
-
-.table_data:hover {
-  background-color: #f7f7f7;
+#support-box .linkify span {
+  grid-column: 2;
+  align-self: start;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
