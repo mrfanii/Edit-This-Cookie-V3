@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Rodyti neįkyrius skelbimus kai kuriuose mano lankomuose puslapiuose"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Rodyti domeną prie kiekvieno slapuko pavadinimo"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detalės"
+  },
+  "editThis_Open_Website": {
+    "message": "Atidaryti svetainę"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Pagal sistemą"
+  },
+  "editThis_Theme_Light": {
+    "message": "Šviesi"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Tamsi"
   }
 }

@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "நான் பார்வையிட்ட பக்கங்கள் சிலவற்றில் அனுமதியின்றி நுழையாதபடியுள்ள விளம்பரங்களை காட்டு"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "டொமைனை ஒவ்வொரு குக்கீயின் பெயர் அருகில் காட்டு"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Details"
+  },
+  "editThis_Open_Website": {
+    "message": "இணையதளத்தைத் திற"
+  },
+  "editThis_Theme": {
+    "message": "தீம்"
+  },
+  "editThis_Theme_System": {
+    "message": "கணினி அமைப்பைப் பின்பற்று"
+  },
+  "editThis_Theme_Light": {
+    "message": "வெளிச்சம்"
+  },
+  "editThis_Theme_Dark": {
+    "message": "இருள்"
   }
 }

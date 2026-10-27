@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "הצג פרסומות מובלטות בחלק מהדפים שאני מבקר"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "הצג את הדומיין ליד כל עוגיה"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "פרטים"
+  },
+  "editThis_Open_Website": {
+    "message": "פתיחת האתר"
+  },
+  "editThis_Theme": {
+    "message": "ערכת נושא"
+  },
+  "editThis_Theme_System": {
+    "message": "לפי המערכת"
+  },
+  "editThis_Theme_Light": {
+    "message": "בהיר"
+  },
+  "editThis_Theme_Dark": {
+    "message": "כהה"
   }
 }

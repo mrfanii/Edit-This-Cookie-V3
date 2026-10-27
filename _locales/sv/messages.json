@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Visa mindre märkbar reklam på några av sidorna jag besöker."
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Visa domänen nära cookies namn"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detaljer"
+  },
+  "editThis_Open_Website": {
+    "message": "Öppna webbplats"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Följ systemet"
+  },
+  "editThis_Theme_Light": {
+    "message": "Ljust"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Mörkt"
   }
 }

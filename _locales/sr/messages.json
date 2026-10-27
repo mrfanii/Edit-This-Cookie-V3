@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Прикажи ненаметљиве рекламе у појединим страницама које посећујем."
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Прикажи домен поред назива сваког колачића"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Детаљи"
+  },
+  "editThis_Open_Website": {
+    "message": "Отвори веб-сајт"
+  },
+  "editThis_Theme": {
+    "message": "Тема"
+  },
+  "editThis_Theme_System": {
+    "message": "Прати систем"
+  },
+  "editThis_Theme_Light": {
+    "message": "Светла"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Тамна"
   }
 }

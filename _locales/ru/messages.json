@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Показывать ненавязчивую рекламу на некоторых страницах"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Показывать имя домена возле каждого имени cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Подробности"
+  },
+  "editThis_Open_Website": {
+    "message": "Открыть сайт"
+  },
+  "editThis_Theme": {
+    "message": "Тема"
+  },
+  "editThis_Theme_System": {
+    "message": "Как в системе"
+  },
+  "editThis_Theme_Light": {
+    "message": "Светлая"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Тёмная"
   }
 }

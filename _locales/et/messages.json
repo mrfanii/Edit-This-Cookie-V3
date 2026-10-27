@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Kuva mõnedes külastavates portaalides tagasihoidlikke reklaame"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Kuva iga küpsise nime kõrval domeen"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detailid"
+  },
+  "editThis_Open_Website": {
+    "message": "Ava veebisait"
+  },
+  "editThis_Theme": {
+    "message": "Teema"
+  },
+  "editThis_Theme_System": {
+    "message": "Järgi süsteemi"
+  },
+  "editThis_Theme_Light": {
+    "message": "Hele"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Tume"
   }
 }

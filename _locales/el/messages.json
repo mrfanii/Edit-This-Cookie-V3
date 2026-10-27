@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Δείχνε μη ενοχλητικές διαφημίσεις σε κάποιες από τις σελίδες που επισκέπτομαι"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Show the domain near each cookie's name"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Λεπτομέρειες"
+  },
+  "editThis_Open_Website": {
+    "message": "Άνοιγμα ιστότοπου"
+  },
+  "editThis_Theme": {
+    "message": "Θέμα"
+  },
+  "editThis_Theme_System": {
+    "message": "Σύμφωνα με το σύστημα"
+  },
+  "editThis_Theme_Light": {
+    "message": "Φωτεινό"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Σκούρο"
   }
 }

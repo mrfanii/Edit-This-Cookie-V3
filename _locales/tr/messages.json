@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Bazı ziyaret ettiğim sayfalarda mütevazi reklamların gösterilmesine izin ver"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Her cookie ismini domain'in yanında göster"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detaylar"
+  },
+  "editThis_Open_Website": {
+    "message": "Web sitesini aç"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Sistemi izle"
+  },
+  "editThis_Theme_Light": {
+    "message": "Açık"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Koyu"
   }
 }

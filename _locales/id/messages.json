@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Tampilkan iklan yang tidak mengganggu di beberapa laman yang saya kunjungi"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Tampilkan domain disebelah nama kuki"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Rincian"
+  },
+  "editThis_Open_Website": {
+    "message": "Buka situs web"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Ikuti sistem"
+  },
+  "editThis_Theme_Light": {
+    "message": "Terang"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Gelap"
   }
 }

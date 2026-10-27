@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "تبلیغات کوچک را در بعضی از صفحاتی که من مشاهده میکنم نشان بده"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "دامنه را در کنار اسم کوکی نشان بده"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "جزییات"
+  },
+  "editThis_Open_Website": {
+    "message": "باز کردن وب‌سایت"
+  },
+  "editThis_Theme": {
+    "message": "پوسته"
+  },
+  "editThis_Theme_System": {
+    "message": "مطابق سیستم"
+  },
+  "editThis_Theme_Light": {
+    "message": "روشن"
+  },
+  "editThis_Theme_Dark": {
+    "message": "تاریک"
   }
 }

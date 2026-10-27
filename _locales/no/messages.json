@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Vis diskré annonser på noen av siden jeg besøker"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Vis domenenavnet ved siden av hver informasjonskapsels navn"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detaljer"
+  },
+  "editThis_Open_Website": {
+    "message": "Åpne nettsted"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Følg systemet"
+  },
+  "editThis_Theme_Light": {
+    "message": "Lys"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Mørk"
   }
 }

@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "在我访问的一些页面中显示些不显眼的广告。"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "在每个cookie名称旁边显示域名"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "详细信息"
+  },
+  "editThis_Open_Website": {
+    "message": "打开网站"
+  },
+  "editThis_Theme": {
+    "message": "主题"
+  },
+  "editThis_Theme_System": {
+    "message": "跟随系统"
+  },
+  "editThis_Theme_Light": {
+    "message": "浅色"
+  },
+  "editThis_Theme_Dark": {
+    "message": "深色"
   }
 }

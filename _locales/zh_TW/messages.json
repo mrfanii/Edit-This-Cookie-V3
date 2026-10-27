@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "在某些我瀏覽的頁面上顯示非阻擋性的廣告"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "在 cookie 名稱附近顯示網域名稱"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "詳細"
+  },
+  "editThis_Open_Website": {
+    "message": "開啟網站"
+  },
+  "editThis_Theme": {
+    "message": "主題"
+  },
+  "editThis_Theme_System": {
+    "message": "跟隨系統"
+  },
+  "editThis_Theme_Light": {
+    "message": "淺色"
+  },
+  "editThis_Theme_Dark": {
+    "message": "深色"
   }
 }

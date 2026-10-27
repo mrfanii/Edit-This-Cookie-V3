@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Показувати ненав'язливі рекламні оголошення на деяких сторінках, які я відвідую"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Показувати ім'я домену біля кожного імені кукі"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Деталі"
+  },
+  "editThis_Open_Website": {
+    "message": "Відкрити сайт"
+  },
+  "editThis_Theme": {
+    "message": "Тема"
+  },
+  "editThis_Theme_System": {
+    "message": "Як у системі"
+  },
+  "editThis_Theme_Light": {
+    "message": "Світла"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Темна"
   }
 }

@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Szolid hirdetések mutatása néhány oldalon"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "A domain jelzése a sütik neve mellett"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Részletek"
+  },
+  "editThis_Open_Website": {
+    "message": "Webhely megnyitása"
+  },
+  "editThis_Theme": {
+    "message": "Téma"
+  },
+  "editThis_Theme_System": {
+    "message": "Rendszerbeállítás"
+  },
+  "editThis_Theme_Light": {
+    "message": "Világos"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Sötét"
   }
 }

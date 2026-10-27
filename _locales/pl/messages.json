@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Pokaż dyskretne reklamy na niektórych stronach które odwiedziłem"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Pokaż nazwę domeny obok każdej nazwy ciasteczka"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Szczegóły"
+  },
+  "editThis_Open_Website": {
+    "message": "Otwórz witrynę"
+  },
+  "editThis_Theme": {
+    "message": "Motyw"
+  },
+  "editThis_Theme_System": {
+    "message": "Zgodnie z systemem"
+  },
+  "editThis_Theme_Light": {
+    "message": "Jasny"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Ciemny"
   }
 }

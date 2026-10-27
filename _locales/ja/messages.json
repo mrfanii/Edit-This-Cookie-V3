@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "開いているページに控えめな広告を表示する"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Cookieの名前に近いドメインを表示"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "詳細"
+  },
+  "editThis_Open_Website": {
+    "message": "ウェブサイトを開く"
+  },
+  "editThis_Theme": {
+    "message": "テーマ"
+  },
+  "editThis_Theme_System": {
+    "message": "システムに合わせる"
+  },
+  "editThis_Theme_Light": {
+    "message": "ライト"
+  },
+  "editThis_Theme_Dark": {
+    "message": "ダーク"
   }
 }

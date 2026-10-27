@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Hiện quảng cáo kín đáo ở 1 số trang tôi ghé qua"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Hiện domain gần tên cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Chi tiết"
+  },
+  "editThis_Open_Website": {
+    "message": "Mở trang web"
+  },
+  "editThis_Theme": {
+    "message": "Giao diện"
+  },
+  "editThis_Theme_System": {
+    "message": "Theo hệ thống"
+  },
+  "editThis_Theme_Light": {
+    "message": "Sáng"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Tối"
   }
 }

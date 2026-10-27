@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Mostra pubblicità non invasive in alcune delle pagine che visito"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Mostra il dominio di ogni cookie accanto al suo nome"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Dettagli"
+  },
+  "editThis_Open_Website": {
+    "message": "Apri il sito web"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Segui il sistema"
+  },
+  "editThis_Theme_Light": {
+    "message": "Chiaro"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Scuro"
   }
 }

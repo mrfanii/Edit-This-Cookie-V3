@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "방문하는 몇몇 페이지의 눈에 거슬리지 않는 광고 보여주기"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "각 쿠키 이름 옆에 도메인 보이기"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "세부 사항"
+  },
+  "editThis_Open_Website": {
+    "message": "웹사이트 열기"
+  },
+  "editThis_Theme": {
+    "message": "테마"
+  },
+  "editThis_Theme_System": {
+    "message": "시스템 설정 사용"
+  },
+  "editThis_Theme_Light": {
+    "message": "라이트"
+  },
+  "editThis_Theme_Dark": {
+    "message": "다크"
   }
 }

@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Vis diskrete reklamer på nogle af de sider jeg besøger"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Vis domænet ved cookie-navnet"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detaljer"
+  },
+  "editThis_Open_Website": {
+    "message": "Åbn websted"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Følg systemet"
+  },
+  "editThis_Theme_Light": {
+    "message": "Lys"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Mørk"
   }
 }

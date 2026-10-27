@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Mostrar propagandas discretas em algumas das páginas que eu visito"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Mostrar o domínio perto do nome de cada cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detalhes"
+  },
+  "editThis_Open_Website": {
+    "message": "Abrir site"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Seguir o sistema"
+  },
+  "editThis_Theme_Light": {
+    "message": "Claro"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Escuro"
   }
 }

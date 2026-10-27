@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Toon onopvallende advertenties op sommige pagina die ik bezoek"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Toon domein bij iedere cookie naam"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Details"
+  },
+  "editThis_Open_Website": {
+    "message": "Website openen"
+  },
+  "editThis_Theme": {
+    "message": "Thema"
+  },
+  "editThis_Theme_System": {
+    "message": "Systeem volgen"
+  },
+  "editThis_Theme_Light": {
+    "message": "Licht"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Donker"
   }
 }

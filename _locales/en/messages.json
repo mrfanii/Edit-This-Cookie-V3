@@ -431,5 +431,20 @@
   },
   "editThis_Error_No_Restriction": {
     "message": "To use \"SameSite=No Restriction\", you must also set the cookie as Secure."
+  },
+  "editThis_Open_Website": {
+    "message": "Open website"
+  },
+  "editThis_Theme": {
+    "message": "Theme"
+  },
+  "editThis_Theme_System": {
+    "message": "Follow system"
+  },
+  "editThis_Theme_Light": {
+    "message": "Light"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Dark"
   }
 }

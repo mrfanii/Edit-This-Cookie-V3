@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Tunjukkan iklan yang tidak mengganggu di beberapa halaman yang dilawati"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Tunjukkan domain terdekat di setiap nama cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Perincian"
+  },
+  "editThis_Open_Website": {
+    "message": "Buka laman web"
+  },
+  "editThis_Theme": {
+    "message": "Tema"
+  },
+  "editThis_Theme_System": {
+    "message": "Ikut sistem"
+  },
+  "editThis_Theme_Light": {
+    "message": "Cerah"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Gelap"
   }
 }

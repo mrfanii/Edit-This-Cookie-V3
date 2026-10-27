@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Ukazovať nerušivé reklamy na niektorých stránkach, ktoré navštevujem"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Ukázať doménu vedľa názvu cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detaily"
+  },
+  "editThis_Open_Website": {
+    "message": "Otvoriť webovú stránku"
+  },
+  "editThis_Theme": {
+    "message": "Motív"
+  },
+  "editThis_Theme_System": {
+    "message": "Podľa systému"
+  },
+  "editThis_Theme_Light": {
+    "message": "Svetlý"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Tmavý"
   }
 }

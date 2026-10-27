@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Arata reclame neagresive in unele din paginile pe care le accesez."
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Arata Numele Domeniului langa Numele fiecarui Cookie"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Detalii"
+  },
+  "editThis_Open_Website": {
+    "message": "Deschide site-ul"
+  },
+  "editThis_Theme": {
+    "message": "Temă"
+  },
+  "editThis_Theme_System": {
+    "message": "Urmează sistemul"
+  },
+  "editThis_Theme_Light": {
+    "message": "Luminos"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Întunecat"
   }
 }

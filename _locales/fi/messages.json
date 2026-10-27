@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Näytä huomaamattomia mainoksia joillakin käymilläni sivuilla"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Näytä verkkotunnus jokaisen evästeen nimen lähellä"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Tiedot"
+  },
+  "editThis_Open_Website": {
+    "message": "Avaa verkkosivusto"
+  },
+  "editThis_Theme": {
+    "message": "Teema"
+  },
+  "editThis_Theme_System": {
+    "message": "Järjestelmän mukaan"
+  },
+  "editThis_Theme_Light": {
+    "message": "Vaalea"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Tumma"
   }
 }

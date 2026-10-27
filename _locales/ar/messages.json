@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "اظهار الإعلانات الغير مزعجة في بعض الصفحات اللتي أزورها"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "اظهار النطاق بجانب اسم كل كوكي"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "تفاصيل"
+  },
+  "editThis_Open_Website": {
+    "message": "فتح الموقع"
+  },
+  "editThis_Theme": {
+    "message": "السمة"
+  },
+  "editThis_Theme_System": {
+    "message": "اتباع النظام"
+  },
+  "editThis_Theme_Light": {
+    "message": "فاتح"
+  },
+  "editThis_Theme_Dark": {
+    "message": "داكن"
   }
 }

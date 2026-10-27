@@ -81,9 +81,6 @@
   "editThis_AN_adsDescription": {
     "message": "Zeige unaufdringliche Werbung auf einigen Seiten, die ich besuche"
   },
-  "editThis_": {
-    "message": ""
-  },
   "editThis_Show_Domain": {
     "message": "Domain neben jeden Cookie Namen anzeigen"
   },
@@ -416,5 +413,20 @@
   },
   "editThis_Details": {
     "message": "Details"
+  },
+  "editThis_Open_Website": {
+    "message": "Website öffnen"
+  },
+  "editThis_Theme": {
+    "message": "Design"
+  },
+  "editThis_Theme_System": {
+    "message": "Systemeinstellung"
+  },
+  "editThis_Theme_Light": {
+    "message": "Hell"
+  },
+  "editThis_Theme_Dark": {
+    "message": "Dunkel"
   }
 }
