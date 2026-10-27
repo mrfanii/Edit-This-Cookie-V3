@@ -81,6 +81,9 @@ export async function startData(updateCallback) {
     customLocale: {
       default_value: 'en',
     },
+    theme: {
+      default_value: 'system',
+    },
     copyCookiesType: {
       default_value: 'json',
     },
