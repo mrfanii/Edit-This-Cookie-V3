@@ -23,13 +23,11 @@ async function start() {
   function getAll(port, message) {
     chrome.tabs.get(message.tabId, function (tab) {
       var url = tab.url;
-      console.log('Looking for cookies on: ' + url);
       getAllCookies(
         {
           url: url,
         },
         function (cks) {
-          console.log('I have ' + cks.length + ' cookies');
           port.postMessage({
             action: 'getall',
             url: url,
@@ -125,7 +123,7 @@ async function start() {
   if (oldVersion !== currentVersion) {
     if (oldVersion === undefined) {
       //Is firstrun
-      chrome.tabs.create({ url: 'https://editcookie.com/#start' });
+      chrome.runtime.openOptionsPage();
     }
   }
 

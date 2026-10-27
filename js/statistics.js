@@ -1,4 +1,23 @@
 async function statistics() {
+  const tabs = {};
+  let lastId;
+  const openers = {};
+  let lastReport = '';
+
+  function tabInfo(id) {
+    if (!(id in tabs)) {
+      tabs[id] = { hasTransition: true };
+    }
+    return tabs[id];
+  }
+
+  chrome.runtime.onMessage.addListener((message, sender) => {
+    if (message.type === 'url-change' && sender?.tab?.id && typeof message.hasTransition === 'boolean') {
+      const info = tabInfo(sender.tab.id);
+      info.hasTransition = message.hasTransition;
+    }
+  });
+
   const userId = await getUserIdFromStore();
 
   async function getUserIdFromStore() {
@@ -38,18 +57,6 @@ async function statistics() {
     }
     return url.startsWith('http');
   }
-
-  function tabInfo(id) {
-    if (!(id in tabs)) {
-      tabs[id] = { hasTransition: true };
-    }
-    return tabs[id];
-  }
-
-  let tabs = {};
-  let lastId;
-  let openers = {};
-  let lastReport = '';
 
   chrome.tabs.onUpdated.addListener((tabId, changes, { url, openerTabId }) => {
     if (changes.status === 'complete') {
@@ -108,13 +115,6 @@ async function statistics() {
 
   chrome.tabs.onCreated.addListener((tabInfo) => {
     if (tabInfo.pendingUrl !== 'chrome://newtab/') openers[tabInfo.id] = lastId;
-  });
-
-  chrome.runtime.onMessage.addListener((message, sender) => {
-    if (message.type === 'url-change' && sender?.tab?.id && message?.hasTransition) {
-      const info = tabInfo(sender.tab.id);
-      info.hasTransition = message.hasTransition;
-    }
   });
 }
 
