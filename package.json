@@ -1,17 +1,14 @@
 {
   "name": "EditThisCookie",
   "version": "3.0.5",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "description": "A Manifest V3 browser extension for managing cookies.",
   "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "prettier": "^3.0.1"
   },
   "engines": {
-    "node": ">=12.6.0"
-  }
+    "node": ">=14.0.0"
+  },
+  "private": true
 }

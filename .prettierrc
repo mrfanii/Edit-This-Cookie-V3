@@ -1,7 +1,7 @@
 {
   "semi": true,
   "singleQuote": true,
-  "endOfLine": "crlf",
+  "endOfLine": "lf",
   "tabWidth": 2,
   "printWidth": 170
 }
