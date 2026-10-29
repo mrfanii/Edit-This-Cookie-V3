@@ -15,6 +15,6 @@ async function start() {
     element = urlVars.page;
   }
 
-  location.href = '/options_pages/' + element + '.html';
+  location.href = '/pages/' + element + '.html';
 }
 window.addEventListener('load', start);

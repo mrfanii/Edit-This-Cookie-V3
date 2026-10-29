@@ -502,7 +502,7 @@ async function start() {
     $('#optionsButton')
       .unbind()
       .click(function () {
-        var urlToOpen = chrome.runtime.getURL('options_main_page.html');
+        var urlToOpen = chrome.runtime.getURL('pages/options_main_page.html');
         chrome.tabs.create({
           url: urlToOpen,
         });

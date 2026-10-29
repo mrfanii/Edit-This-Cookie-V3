@@ -14,9 +14,9 @@
       "38": "img/icon_38x38.png"
     },
     "default_title": "EditThisCookie",
-    "default_popup": "popup.html"
+    "default_popup": "pages/popup.html"
   },
-  "devtools_page": "/devtools/devtools-page.html",
+  "devtools_page": "/pages/devtools-page.html",
   "background": {
     "service_worker": "/js/background.js",
     "type": "module"
@@ -28,7 +28,7 @@
       "run_at": "document_start"
     }
   ],
-  "options_page": "options_main_page.html",
+  "options_page": "pages/options_main_page.html",
   "permissions": ["tabs", "cookies", "contextMenus", "unlimitedStorage", "storage", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
   "minimum_chrome_version": "119",

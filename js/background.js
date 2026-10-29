@@ -54,7 +54,7 @@ async function start() {
     const tabUrl = encodeURIComponent(tab.url);
     const tabID = encodeURIComponent(tab.id);
     const tabIncognito = encodeURIComponent(tab.incognito);
-    const urlToOpen = chrome.runtime.getURL('popup.html') + `?url=${tabUrl}&id=${tabID}&incognito=${tabIncognito}`;
+    const urlToOpen = chrome.runtime.getURL('pages/popup.html') + `?url=${tabUrl}&id=${tabID}&incognito=${tabIncognito}`;
 
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabList) => {
       for (const cTab of tabList) {

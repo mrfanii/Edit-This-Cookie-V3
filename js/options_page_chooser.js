@@ -10,7 +10,7 @@ export function setPageCooserEvents() {
       return;
     }
     await storage.set('option_panel', panel);
-    location.href = '/options_pages/' + id + '.html';
+    location.href = '/pages/' + id + '.html';
   });
 }
 
