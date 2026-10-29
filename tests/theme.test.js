@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 
 import { applyTheme, resolveTheme } from '../js/theme.js';
 
 function installThemeEnvironment(initialMatches = false) {
   const listeners = new Set();
+  const cache = new Map();
   const mediaQuery = {
     matches: initialMatches,
     addEventListener(event, listener) {
@@ -21,6 +24,10 @@ function installThemeEnvironment(initialMatches = false) {
     },
   };
   globalThis.window = {
+    localStorage: {
+      getItem: (key) => cache.get(key) ?? null,
+      setItem: (key, value) => cache.set(key, value),
+    },
     matchMedia(query) {
       assert.equal(query, '(prefers-color-scheme: dark)');
       return mediaQuery;
@@ -32,7 +39,7 @@ function installThemeEnvironment(initialMatches = false) {
       style: {},
     },
   };
-  return { mediaQuery, listeners };
+  return { mediaQuery, listeners, cache };
 }
 
 afterEach(() => {
@@ -94,4 +101,90 @@ test('invalid theme preferences fall back to the system setting', () => {
 
   assert.equal(applyTheme('unexpected'), 'dark');
   assert.equal(listeners.size, 1);
+});
+
+function runThemeInitializer(getPreference) {
+  const script = readFileSync(new URL('../js/theme-init.js', import.meta.url), 'utf8');
+  runInNewContext(script, {
+    window,
+    document,
+    chrome: {
+      storage: {
+        local: {
+          get(key) {
+            assert.equal(key, 'options_theme');
+            return getPreference();
+          },
+        },
+      },
+    },
+  });
+}
+
+test('theme changes cache the preference immediately for the next page', () => {
+  const { cache } = installThemeEnvironment(true);
+
+  applyTheme('dark');
+  assert.equal(cache.get('editThisCookie.theme'), 'dark');
+  applyTheme('light');
+  assert.equal(cache.get('editThisCookie.theme'), 'light');
+  applyTheme('system');
+  assert.equal(cache.get('editThisCookie.theme'), 'system');
+  assert.equal(document.documentElement.dataset.theme, 'dark');
+});
+
+test('cached theme is applied before an asynchronous preference read completes', async () => {
+  const { cache } = installThemeEnvironment(false);
+  cache.set('editThisCookie.theme', 'dark');
+  let resolvePreference;
+  const preference = new Promise((resolve) => {
+    resolvePreference = resolve;
+  });
+
+  runThemeInitializer(() => preference);
+  assert.equal(document.documentElement.dataset.theme, 'dark');
+  assert.equal(document.documentElement.style.colorScheme, 'dark');
+
+  resolvePreference({ options_theme: 'light' });
+  await preference;
+  assert.equal(document.documentElement.dataset.theme, 'light');
+  assert.equal(cache.get('editThisCookie.theme'), 'light');
+});
+
+test('cached system preference resolves against the current OS theme on each load', async () => {
+  for (const prefersDark of [true, false]) {
+    const { cache } = installThemeEnvironment(prefersDark);
+    cache.set('editThisCookie.theme', 'system');
+    const preference = Promise.resolve({ options_theme: 'system' });
+
+    runThemeInitializer(() => preference);
+    assert.equal(document.documentElement.dataset.theme, prefersDark ? 'dark' : 'light');
+    await preference;
+    assert.equal(cache.get('editThisCookie.theme'), 'system');
+  }
+});
+
+test('initial theme works without cache access and tolerates an unreadable preference', async () => {
+  installThemeEnvironment(true);
+  Object.defineProperty(window, 'localStorage', {
+    get() {
+      throw new Error('Storage is unavailable');
+    },
+  });
+  const preference = Promise.reject(new Error('Preference is unavailable'));
+
+  runThemeInitializer(() => preference);
+  await preference.catch(() => {});
+  assert.equal(document.documentElement.dataset.theme, 'dark');
+  assert.equal(applyTheme('light'), 'light');
+});
+
+test('first load reads the saved explicit theme independently of application startup', async () => {
+  const { cache } = installThemeEnvironment(false);
+  const preference = Promise.resolve({ options_theme: 'dark' });
+
+  runThemeInitializer(() => preference);
+  await preference;
+  assert.equal(document.documentElement.dataset.theme, 'dark');
+  assert.equal(cache.get('editThisCookie.theme'), 'dark');
 });

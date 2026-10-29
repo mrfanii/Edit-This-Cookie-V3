@@ -9,6 +9,11 @@ export function resolveTheme(preference, prefersDark = false) {
 export function applyTheme(preference) {
   stopWatchingSystemTheme();
   const normalizedPreference = preference === 'light' || preference === 'dark' ? preference : 'system';
+  try {
+    window.localStorage.setItem('editThisCookie.theme', normalizedPreference);
+  } catch {
+    // The theme must still work when synchronous storage is unavailable.
+  }
   const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
   const updateTheme = () => {
     const theme = resolveTheme(normalizedPreference, mediaQuery?.matches === true);
