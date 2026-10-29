@@ -2,14 +2,25 @@
   max-width: 1040px;
 }
 
+.rules-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 #addRule {
-  float: right;
-  width: auto;
+  display: inline-flex;
   min-width: 132px;
-  height: 38px;
-  margin: -62px 0 0;
+  min-height: 38px;
+  margin: 0;
   padding: 9px 15px;
-  border: 0 !important;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
   border-radius: 9px;
   background: var(--accent);
   color: #fff;
@@ -22,8 +33,13 @@
   background: var(--accent-hover);
 }
 
-#addRule .fa-solid {
-  margin-right: 7px;
+#addRule:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+html[data-theme='dark'] #addRule {
+  color: var(--surface-soft);
 }
 
 .active div {

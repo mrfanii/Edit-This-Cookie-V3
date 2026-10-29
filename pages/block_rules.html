@@ -25,12 +25,14 @@
     </div>
 
     <div id="rules-box" class="box">
-      <h1 i18n="Blocked_Cookies"></h1>
-      <hr />
-
-      <div id="addRule" class="button" i18n="Flag_Cookie">
-        <i class="pull-left fa-solid fa-plus"></i>
+      <div class="rules-header">
+        <h1 i18n="Blocked_Cookies"></h1>
+        <button id="addRule" type="button" class="button">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          <span i18n="Flag_Cookie"></span>
+        </button>
       </div>
+      <hr />
 
       <div class="table">
         <div class="new_rule_operations">

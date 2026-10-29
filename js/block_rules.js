@@ -34,7 +34,6 @@ async function start() {
         }
       });
     $('#addRule')
-      .button()
       .unbind()
       .click(function () {
         showNewEmptyRule();
