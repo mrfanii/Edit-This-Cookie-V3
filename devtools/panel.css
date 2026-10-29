@@ -56,6 +56,8 @@ body {
 }
 
 .datagrid table {
+  background-color: var(--surface);
+  color: var(--text);
   border-collapse: collapse;
   text-align: left;
   width: 100%;
@@ -89,9 +91,10 @@ body {
   border: none;
 }
 
-.datagrid table tbody td {
+.datagrid #cookieTable tbody td {
   color: var(--text);
   border-left: 1px solid var(--border);
+  border-bottom-color: var(--border);
   font-size: 12px;
   font-weight: 400;
 }
